@@ -1,0 +1,47 @@
+.error-message{
+    color:red;
+    font-size: 12px;
+    margin-top: 5px;
+    font-style: italic;
+}
+.table >thead > tr > th,
+.table >tbody > tr > th,
+.table >tfoot > tr > th,
+.table >thead > tr > td,
+.table >tbody > tr > td,
+.table >tfoot > tr > td {
+    vertical-align: middle;
+}
+
+.uk-flex-space-between {
+ -ms-flex-pack: justify;
+ -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+.uk-flex-space-middle {
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.uk-flex {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+}
+
+.active-bg {
+    background: #111111 !important;
+}
+#checkall,
+.checkboxItem{
+    width: 35px;
+    height: 35px;
+}
+
+.select2-container--default{
+    margin-right: 10px;
+}
+
+.toolbox{
+    margin-left: 10px;
+}
