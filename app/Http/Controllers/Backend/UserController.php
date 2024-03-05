@@ -31,7 +31,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $config = $this->config();
+        $config = $this->configData();
         $config['seo'] = config('apps.user');
         $users = User::all()->sortByDesc('created_at');
         return view('backend.user.user.index', compact('users', 'config'));
@@ -41,6 +41,7 @@ class UserController extends Controller
     {
 
         $provinces = $this->provinceRepository->all();
+        $config = $this->configData();
         $config['method'] = 'create';
         $config['seo'] = config('apps.user');
         return view('backend.user.user.store', compact(
@@ -61,6 +62,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = $this->userRepository->findById($id);
+        $config = $this->configData();
         $provinces = $this->provinceRepository->all();
         $config['method'] = 'edit';
         $config['seo'] = config('apps.user');
@@ -98,6 +100,9 @@ class UserController extends Controller
 
 
     private function config()
+    {
+    }
+    private function configData()
     {
     }
 }

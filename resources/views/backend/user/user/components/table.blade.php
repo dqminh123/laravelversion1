@@ -17,7 +17,7 @@
       @foreach($users as $user)
       <tr>
         <td><input type="checkbox" value="{{$user->id}}"  class="input-checkbox checkBoxItem"></td>
-        <td><span class="image"><img src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/07/avatar-dep-4.jpg" alt="" style="width: 50px"></span></td>
+        <td><span class="image"><img src="{{$user->image}}" alt="" style="height:50px;width:50px"></span></td>
         <td>
         {{$user->name}}
         </td>

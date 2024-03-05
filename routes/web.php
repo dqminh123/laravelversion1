@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\DashBoardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\LanguageController;
 use App\Http\Controllers\Backend\UserCatalogueController;
+use App\Http\Controllers\Backend\PostCatalogueController;
 use App\Http\Controllers\Ajax\LocationController;
 use App\Http\Controllers\Ajax\DashBoardController as AjaxDashboardController;
 
@@ -59,11 +60,21 @@ Route::group(['prefix => backend', 'middleware' => 'admin'], function () {
     Route::get('/language/{id}/delete', [LanguageController::class, 'delete'])->where(['id'=> '[0-9]+'])->name('language.delete');
     Route::delete('/language/{id}/destroy', [LanguageController::class, 'destroy'])->where(['id'=> '[0-9]+'])->name('language.destroy');
 
+    //postcatalogue
+    Route::get('/post/catalogue/index', [PostCatalogueController::class, 'index'])->name('post.catalogue.index');
+    Route::get('/post/catalogue/create', [PostCatalogueController::class, 'create'])->name('post.catalogue.create');
+    Route::post('/post/catalogue/store', [PostCatalogueController::class, 'store'])->name('post.catalogue.store');
+    Route::get('/post/catalogue/{id}/edit', [PostCatalogueController::class, 'edit'])->where(['id'=> '[0-9]+'])->name('post.catalogue.edit');
+    Route::post('/post/catalogue/{id}/update', [PostCatalogueController::class, 'update'])->where(['id'=> '[0-9]+'])->name('post.catalogue.update');
+    Route::get('/post/catalogue/{id}/delete', [PostCatalogueController::class, 'delete'])->where(['id'=> '[0-9]+'])->name('post.catalogue.delete');
+    Route::delete('/post/catalogue/{id}/destroy', [PostCatalogueController::class, 'destroy'])->where(['id'=> '[0-9]+'])->name('post.catalogue.destroy');
+    
 
     Route::resources([
         'users' => 'UserController',
         'user_catalogues' => 'UserCatalogueController',
-        'languages' => 'LanguageController'
+        'languages' => 'LanguageController',
+        'post_catalogues' => 'PostCatalogueController',
     ]);
 });
 

@@ -26,7 +26,7 @@ return [
             'subModule' => [
                 [
                     'title' => 'Ql Nhóm Bài Viết',
-                    'route' => 'user.catalogue.index',
+                    'route' => 'post.catalogue.index',
                 ],
                 [
                     'title' => 'Ql Bài Viết',

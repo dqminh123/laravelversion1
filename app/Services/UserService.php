@@ -43,8 +43,9 @@ class UserService implements UserServiceInterface
         DB::beginTransaction();
         try {
             $payload = $request->except(['_token', 'send']);
-            $payload['birthday'] = $this->ConvertBirthdayDate($payload['birthday']);
-
+            if($payload['birthday'] != null){
+                $payload['birthday'] = $this->ConvertBirthdayDate($payload['birthday']);
+            }
             $user = $this->userRepository->update($id, $payload);
             DB::commit();
             return true;

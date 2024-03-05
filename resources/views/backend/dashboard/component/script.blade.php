@@ -51,4 +51,6 @@
 <script src="{{asset('public/backend/assets/library/location.js')}}"></script>
 <script src="{{asset('public/backend/assets/library/library.js')}}"></script>
 <script src="{{asset('public/backend/assets/library/finder.js')}}"></script>
+<script src="{{asset('public/backend/assets/library/seo.js')}}"></script>
 <script src="{{asset('public/backend/assets/plugin/ckfinder_2/ckfinder.js')}}"></script>
+<script src="{{asset('public/backend/assets/plugin/ckeditor/ckeditor.js')}}"></script>

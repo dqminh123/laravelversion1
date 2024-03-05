@@ -10,6 +10,7 @@ License: For each use you must have a valid license purchased only from above li
 -->
 <html lang="en">
 <head>
+	<base href="{{config('app.url')}}">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -42,8 +43,8 @@ License: For each use you must have a valid license purchased only from above li
 	<link rel="stylesheet" href="{{asset('public/backend/assets/vendors/dropzone/dropzone.min.css')}}">
 	<link rel="stylesheet" href="{{asset('public/backend/assets/vendors/dropify/dist/dropify.min.css')}}">
   <!-- Layout styles -->  
-	<link rel="stylesheet" href="{{asset('public/backend/assets/css/demo2/style.css')}}">
-	<link rel="stylesheet" href="{{asset('public/backend/assets/css/demo2/customize.css')}}">
+	<link rel="stylesheet" href="{{asset('public/backend/assets/css/demo1/style.css')}}">
+	<link rel="stylesheet" href="{{asset('public/backend/assets/css/demo1/customize.css')}}">
 
 	<link rel="stylesheet" href="{{asset('public/backend/assets/vendors/jquery-tags-input/jquery.tagsinput.min.css')}}">
 
@@ -52,6 +53,10 @@ License: For each use you must have a valid license purchased only from above li
   <!-- End layout styles -->
 
   <link rel="shortcut icon" href="{{asset('public/backend/assets/images/favicon.png')}}" />
+  <script>
+	var BASE_URL = '{{ config('app.url')}}'
+	var SUFFIX = '{{ config('apps.general.suffix')}}'
+  </script>
 </head>
 <body>
 	<div class="main-wrapper">

@@ -45,3 +45,11 @@
 .toolbox{
     margin-left: 10px;
 }
+
+.meta-title{
+    font-size: 20px;
+    color: #1a0dab;
+}
+.canonical{
+    color: green;
+}

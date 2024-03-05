@@ -16,7 +16,7 @@
       <tr>
         <td><input type="checkbox" value="{{$language->id}}"  class="input-checkbox checkBoxItem"></td>
         <td>
-          <span class="image"><img src="{{$language->image}}" alt=""></span>
+          <span class="image"><img src="{{$language->image}}" alt="" style="height:50px;width:50px"></span>
         </td>
         <td>
         {{$language->name}}

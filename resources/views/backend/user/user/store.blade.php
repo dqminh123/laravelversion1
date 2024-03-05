@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Ảnh</label>
-                                        <input type="text" name="image" id="image" class="form-control input-image"
+                                        <input type="text" name="image" id="image" class="form-control upload-image"
                                             value="{{ old('image', $user->image ?? '') }}" data-upload="Images">
                                     </div>
                                 </div><!-- Row -->
