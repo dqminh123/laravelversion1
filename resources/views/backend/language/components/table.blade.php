@@ -35,7 +35,7 @@
           </div>
         </td>
         <td class="text-center">
-          <a href="{{route('language.edit', $language->id)}}" class="btn btn-success"><i class="link-icon" data-feather="edit-2"></i></a>
+          <a href="{{route('language.edit', $language->id)}}" class="btn btn-success"><i class="link-icon" data-feather="edit"></i></a>
           <a href="{{route('language.delete', $language->id)}}" class="btn btn-danger"><i class="link-icon" data-feather="delete"></i></a>
         </td>
       </tr>

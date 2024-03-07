@@ -19,11 +19,11 @@
                             ToolBox <i class="fa fa-wrench"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a class="changeStatusAll" data-value="1" data-field="publish" data-model="UserCatalogue">
+                            <li><a class="changeStatusAll xxx" data-value="1" data-field="publish" data-model="UserCatalogue">
                                     Publish toàn bộ
                                 </a>
                             </li>
-                            <li><a class="changeStatusAll" data-value="0" data-field="publish" data-model="UserCatalogue">
+                            <li><a class="changeStatusAll xxx" data-value="0" data-field="publish" data-model="UserCatalogue">
                                     UnPublish toàn bộ
                                 </a>
                             </li>
@@ -31,21 +31,7 @@
                         <hr>
                         <h6 class="card-title">{{ $config['seo']['index']['table'] }}</h6>
                         <div class="table-responsive">
-                            <div class="action">
-                                <div class="uk-flex uk-flex-middle">
-                                    <select name="publish" class="js-example-basic-single form-select" data-width="20%">
-                                        <option value="-1" selected="selected">Chọn tình trạng</option>
-                                        <option value="0">Publish</option>
-                                        <option value="1">UnPublish</option>
-                                    </select>
-                                    <select name="user_catalogue_id" class="js-example-basic-single form-select"
-                                        data-width="20%">
-                                        <option value="0" selected="selected">Chọn Nhóm Thành Viên</option>
-                                        <option value="1">Quản trị Viên</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
+                            
                             @include('backend.user.catalogue.components.table')
                         </div>
                     </div>

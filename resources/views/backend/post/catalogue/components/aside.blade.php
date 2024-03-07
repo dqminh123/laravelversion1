@@ -8,16 +8,17 @@
                         <span class="text-danger">(*)</span></label>
                     <span class="text-danger notice">Chọn Root nếu không có danh mục
                         cha</span>
-                    <select name="user_catalogue_id"
+                    <select name="parent_id"
                         class="js-example-basic-single form-select form-control"
                         data-width="100%">
-                        <option value="0">Chọn danh mục cha</option>
-                        <option value="1">Root</option>
-                        <option value="2">...</option>
+                        @foreach ($dropdown as $key => $val)
+                        <option value="{{$key}}">{{$val}}</option>
+                        @endforeach
+                       
                     </select>
-                    @if ($errors->has('user_catalogue_id'))
+                    @if ($errors->has('parent_id'))
                                         <span class="error-message" style="color: red">*
-                                            {{ $errors->first('user_catalogue_id') }}</span>
+                                            {{ $errors->first('parent_id') }}</span>
                                     @endif
                 </div>
             </div>
@@ -35,9 +36,9 @@
             <div class="col-lg-12">
                 <div class="form-row">
                     <span class="image img-cover image-target"><img
-                            src="{{ url('public/upload/noimage.jpeg') }}"
+                            src="{{ old('image') ?? url('public/upload/noimage.jpeg') }}"
                             alt="" style="width:250px"></span>
-                    <input type="hidden" name="image" value="">
+                    <input type="hidden" name="image" value="{{ old('image', $postCatalogue->image ?? '') }}">
                 </div>
             </div>
         </div>
@@ -52,21 +53,25 @@
             <div class="col-lg-12">
                 <div class="form-row">
                     <div class="row mb-3">
-                        <select name=""
+                        <select name="follow"
                             class="js-example-basic-single form-select form-control"
                             data-width="100%">
                             @foreach (config('apps.general.follow') as $key => $value)
-                                <option value="{{ $key }}">
+                                <option {{ $key == old('follow', isset($postCatalogue->follow) ? $postCatalogue->follow : '')
+                                    ? 'selected'
+                                    : '' }} value="{{ $key }}">
                                     {{ $value }}</option>
                             @endforeach
 
                         </select>
                     </div>
-                    <select name=""
+                    <select name="publish"
                         class="js-example-basic-single form-select form-control"
                         data-width="100%">
                         @foreach (config('apps.general.publish') as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}
+                            <option {{ $key == old('publish', isset($postCatalogue->publish) ? $postCatalogue->publish : '')
+                                ? 'selected'
+                                : '' }} value="{{ $key }}">{{ $value }}
                             </option>
                         @endforeach
 

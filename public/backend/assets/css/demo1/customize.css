@@ -106,6 +106,14 @@ input[name=canonical]{
 .meta-keyword{
    color: blue;
 }
-.btn{
-    margin-left: 900px;
+
+.button-fix{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+
+}
+.xxx{
+    cursor: pointer;
+    
 }

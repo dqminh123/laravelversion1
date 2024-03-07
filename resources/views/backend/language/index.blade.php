@@ -19,11 +19,11 @@
                             ToolBox <i class="fa fa-wrench"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a class="changeStatusAll" data-value="1" data-field="publish" data-model="Language">
+                            <li><a class="changeStatusAll xxx" data-value="1" data-field="publish" data-model="Language">
                                     Publish toàn bộ
                                 </a>
                             </li>
-                            <li><a class="changeStatusAll" data-value="0" data-field="publish" data-model="Language">
+                            <li><a class="changeStatusAll xxx" data-value="0" data-field="publish" data-model="Language">
                                     UnPublish toàn bộ
                                 </a>
                             </li>

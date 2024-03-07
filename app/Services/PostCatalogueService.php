@@ -2,23 +2,32 @@
 
 namespace App\Services;
 
+use App\Models\PostCatalogue;
 use Illuminate\Support\Facades\DB;
 use App\Services\Interfaces\PostCatalogueServiceInterface;
+use App\Services\Interfaces\BaseServiceInterface;
 use App\Repositories\Interfaces\PostCatalogueRepositoryInterface as PostCatalogueRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Classes\Nestedsetbie;
 
-class PostCatalogueService implements PostCatalogueServiceInterface
+class PostCatalogueService extends BaseService implements PostCatalogueServiceInterface
 {
 
     protected $postCatalogueRepository;
+    protected $nestedset;
 
     public function __construct(
        
-        PostCatalogueRepository   $postCatalogueRepository
-    ) {
+        PostCatalogueRepository   $postCatalogueRepository,
        
+    ) {
+        $this->nestedset = new Nestedsetbie([
+            'table' => 'post_catalogues',
+            'foreignkey' => 'post_catalogue_id',
+            'language_id' => $this->currentLanguage()
+        ]);
         $this->postCatalogueRepository = $postCatalogueRepository;
     }
 
@@ -26,9 +35,19 @@ class PostCatalogueService implements PostCatalogueServiceInterface
     {
         DB::beginTransaction();
         try {
-            $payload = $request->except(['_token', 'send', ]);
+            $payload = $request->only($this->payload());
             $payload['user_id'] = Auth::id();
-            $language = $this->postCatalogueRepository->create($payload);
+            $postCatalogue = $this->postCatalogueRepository->create($payload);
+            if($postCatalogue->id >0){
+                $payloadLanguage = $request->only($this->payloadLanguage()); 
+                $payloadLanguage['language_id'] = $this->currentLanguage();
+                $payloadLanguage['post_catalogue_id'] = $postCatalogue->id;
+                $language = $this->postCatalogueRepository->createLanguagePivot($postCatalogue, $payloadLanguage);
+            }
+                  $this->nestedset->Get('level ASC', 'order ASC'); // Lay du lieu
+                  $this->nestedset->Recursive(0, $this->nestedset->Set()); // tinh toan lai lft rgt tung node
+                  $this->nestedset->Action(); // goi action cap nhat gia tri lft rgt
+
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -132,6 +151,13 @@ class PostCatalogueService implements PostCatalogueServiceInterface
     //         return false;
     //     }
     // }
+
+    private function payload(){
+        return ['parent_id', 'follow','publish','image'];
+    }
+    private function payloadLanguage(){
+        return ['name','description','content','meta_title','meta_keyword','meta_description','canonical'];
+    }
 
     
 }

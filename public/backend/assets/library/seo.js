@@ -19,15 +19,15 @@ $(function() {
             let value = input.val()
             $('.canonical').html(BASE_URL + value + SUFFIX);
         });
-        $('textarea[name=meta-description]').on('keyup', function(){
+        $('textarea[name=meta_description]').on('keyup', function(){
             let input = $(this)
             let value = input.val()
-            $('.meta-description').html(value);
+            $('.meta_description').html(value);
         });
-        $('input[name=meta-keyword').on('keyup', function () {
+        $('input[name=meta_keyword').on('keyup', function () {
             let input = $(this)
             let value = input.val()
-            $('.meta-keyword').html(value);
+            $('.meta_keyword').html(value);
         });
        
     }

@@ -32,9 +32,12 @@
                                         @include('backend.post.catalogue.components.aside')
                                     </div>
                                 </div>
+                                <div class="text-right button-fix">
+                                    <button type="submit" name="send" value="send" class="btn btn-success">Submit
+                                        form</button>
+                                </div>
                             </div>
-                            <button type="submit" name="send" value="send" class="btn btn-primary submit">Submit
-                                form</button>
+                            
                         </form>
                     </div>
                 </div>

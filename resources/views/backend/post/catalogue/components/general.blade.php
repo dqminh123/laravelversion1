@@ -17,9 +17,11 @@
         <div class="form-row">
             <label for="" class="control-label text-left">Mô tả ngắn</label>
             <textarea type="text" name="description" id="ckDescription"
-                value="{{ old('description', $postCatalogue->description ?? '') }}" class="form-control ck-editor"
+                 class="form-control ck-editor"
                 placeholder="Nhập Mô Tả" autocomplete="off" data-height="150">
+                {{ old('description', $postCatalogue->description ?? '') }}
             </textarea>
+            
         </div>
     </div>
 </div>
@@ -27,8 +29,9 @@
     <div class="col-lg-12">
         <div class="form-row">
             <label for="" class="control-label text-left">Nội Dung</label>
-            <textarea type="text" name="content" id="ckContent" value="{{ old('content', $postCatalogue->content ?? '') }}"
+            <textarea type="text" name="content" id="ckContent" 
                 class="form-control ck-editor" placeholder="Nhập Mô Tả" autocomplete="off" data-height="500">
+                {{ old('content', $postCatalogue->content ?? '') }}
             </textarea>
         </div>
     </div>
