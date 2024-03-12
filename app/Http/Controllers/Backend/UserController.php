@@ -85,6 +85,7 @@ class UserController extends Controller
     {
         $user = $this->userRepository->findById($id);
         $config['seo'] = config('apps.user');
+        $config['method'] = 'delete';
         return view('backend.user.user.delete', compact(
             'config',
             'user',

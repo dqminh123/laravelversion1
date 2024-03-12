@@ -76,6 +76,7 @@ class LanguageController extends Controller
     {
         $language = $this->languageRepository->findById($id);
         $config['seo'] = config('apps.language');
+        $config['method'] = 'delete';
         return view('backend.language.delete', compact(
             'config',
             'language',

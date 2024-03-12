@@ -77,6 +77,7 @@ class UserCatalogueController extends Controller
     {
         $userCatalogue = $this->userCatalogueRepository->findById($id);
         $config['seo'] = config('apps.usercatalogue');
+        $config['method'] = 'delete';
         return view('backend.user.catalogue.delete', compact(
             'config',
             'userCatalogue',

@@ -2,7 +2,7 @@
 @section('backend')
 
     <div class="page-content">
-        @include('backend.dashboard.component.breadcrumb', ['title' => $config['seo']['create']['title']])
+        @include('backend.dashboard.component.breadcrumb', ['title' => $config['seo'][$config['method']]['title']])
         <div class="row">
             <div class="col-md-12 stretch-card">
                 <div class="card">

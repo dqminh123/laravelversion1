@@ -30,12 +30,13 @@
 }
 
 .active-bg {
-    background: #111111 !important;
+    background: aquamarine !important;
 }
 #checkall,
 .checkboxItem{
     width: 35px;
     height: 35px;
+    background: aquamarine;
 }
 
 .select2-container--default{

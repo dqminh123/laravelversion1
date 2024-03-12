@@ -9,6 +9,10 @@ return [
         'title' => 'Thêm Mới Nhóm Bài Viết',
         
     ],
+    'edit' => [
+        'title' => 'Cập Nhật Nhóm Bài Viết',
+        
+    ],
     'delete' => [
         'title' => 'Xóa Nhóm Bài Viết',
     ]
