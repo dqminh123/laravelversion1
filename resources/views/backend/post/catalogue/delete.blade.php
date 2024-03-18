@@ -9,15 +9,15 @@
                     <div class="card-body">
             
                         <h6 class="card-title" style="font-weight: bolder;color:gold">Thông Tin Chung</h6>
-                        <form action="{{route('post.catalogue.destroy', $postcatalogue->id)}}" method="post">
+                        <form action="{{route('post.catalogue.destroy', $postCatalogue->id)}}" method="post">
                             @csrf
                             @method('DELETE')
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Tên Ngôn Ngữ <span class="text-danger">(*)</span></label>
+                                        <label class="form-label">Tên Nhóm <span class="text-danger">(*)</span></label>
                                         <input type="text" name="name" id="name" class="form-control"
-                                            value="{{ old('name', $postcatalogue->name ?? '') }}" placeholder="Nhập Họ Và Tên" readonly>
+                                            value="{{ old('name', $postCatalogue->name ?? '') }}" placeholder="Nhập Họ Và Tên" readonly>
                                         @if ($errors->has('name'))
                                             <span class="error-message" style="color: red">*
                                                 {{ $errors->first('name') }}</span>

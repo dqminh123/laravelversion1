@@ -45,6 +45,7 @@ License: For each use you must have a valid license purchased only from above li
   <!-- Layout styles -->  
 	<link rel="stylesheet" href="{{asset('public/backend/assets/css/demo1/style.css')}}">
 	<link rel="stylesheet" href="{{asset('public/backend/assets/css/demo1/customize.css')}}">
+	<link rel="stylesheet" href="{{asset('public/backend/assets/plugin/jquery-ui.css')}}">
 
 	<link rel="stylesheet" href="{{asset('public/backend/assets/vendors/jquery-tags-input/jquery.tagsinput.min.css')}}">
 

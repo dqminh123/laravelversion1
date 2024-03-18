@@ -1,4 +1,6 @@
-
+@php
+    $segment = request()->segments(1);
+@endphp
 <nav class="sidebar">
     <div class="sidebar-header">
         <a href="{{ route('home.index') }}" class="sidebar-brand">
@@ -19,16 +21,17 @@
                     <span class="link-title">Dashboard</span>
                 </a>
             </li>
+            <div id="accordion">
             @foreach (config('apps.module.module') as $key => $val)
                 <li class="nav-item nav-category">{{ $val['name'] }}</li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#emails" role="button" aria-expanded="false"
+                <li class="nav-item{{ (in_array($val['name'],$segment)) ? 'active' : '' }}">
+                    <a class="nav-link" data-bs-toggle="collapse" data-bs-target="{{'#'.$val['name']}}" role="button" aria-expanded="false"
                         aria-controls="emails">
                         <i class="{{ $val['icon'] }}"></i>
                         <span class="link-title">{{ $val['title'] }}</span>
                         <i class="link-arrow" data-feather="chevron-down"></i>
                     </a>
-                    <div class="collapse" id="emails">
+                    <div class="collapse" id="{{$val['name']}}" data-parent="#accordion">
                         @if (isset($val['subModule']))
                             <ul class="nav sub-menu">
                                 @foreach ($val['subModule'] as $module)
@@ -42,6 +45,7 @@
                     </div>
                 </li>
             @endforeach
+        </div>
             <li class="nav-item">
                 <a href="pages/apps/chat.html" class="nav-link">
                     <i class="link-icon" data-feather="message-square"></i>

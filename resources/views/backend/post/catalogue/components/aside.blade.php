@@ -35,7 +35,7 @@
             <div class="col-lg-12">
                 <div class="form-row">
                     <span class="image img-cover image-target"><img
-                            src="{{ (old('image',$postCatalogue->image) ?? url('public/upload/noimage.jpeg')) }}" alt=""
+                            src="{{ (old('image',$postCatalogue->image ?? url('public/upload/noimage.jpeg')) ?? url('public/upload/noimage.jpeg')) }}" alt=""
                             style="width:250px"></span>
                     <input type="hidden" name="image" value="{{ old('image', $postCatalogue->image ?? '') }}">
                 </div>

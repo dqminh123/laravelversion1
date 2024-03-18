@@ -5,7 +5,9 @@
     <div class="ibox-content">
         <div class="seo-container">
             <div class="meta-title">
-                {{ old('meta_title', $postCatalogue->meta_title ?? '') ?? 'Bạn chưa có tiều đề SEO' }}
+                {{ old('meta_title', $postCatalogue->meta_title ?? '') ? 
+                old('meta_title', $postCatalogue->meta_title ?? '')
+                : 'Bạn chưa có tiều đề SEO' }}
             </div>
             <div class="canonical">
                 {{ old('canonical', $postCatalogue->canonical ?? '')
@@ -13,10 +15,13 @@
                     : 'http://duong-dan-cua-ban.html' }}
             </div>
             <div class="meta_description">
-                {{ old('meta_description', $postCatalogue->meta_description ?? '') ?? 'Bạn chưa có mô tả SEO' }}
+                {{ old('meta_description', $postCatalogue->meta_description ?? '')? 
+                old('meta_description', $postCatalogue->meta_description ?? '') 
+                : 'Bạn chưa có mô tả SEO' }}
             </div>
             <div class="meta_keyword">
-                {{ old('meta_keyword', $postCatalogue->meta_keyword ?? '') ?? 'Bạn chưa có từ khóa SEO' }}</div>
+                {{ old('meta_keyword', $postCatalogue->meta_keyword ?? '')? 
+                old('meta_keyword', $postCatalogue->meta_keyword ?? '') : 'Bạn chưa có từ khóa SEO' }}</div>
         </div>
         <div class="seo-wrapper">
             <div class="row mb-3">

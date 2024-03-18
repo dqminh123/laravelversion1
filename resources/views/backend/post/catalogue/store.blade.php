@@ -26,6 +26,7 @@
                                                 @include('backend.post.catalogue.components.general')
                                             </div>
                                         </div>
+                                        @include('backend.dashboard.component.album')
                                         @include('backend.post.catalogue.components.seo')
                                     </div>
                                     <div class="col-lg-3">

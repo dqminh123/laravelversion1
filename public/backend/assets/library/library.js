@@ -6,6 +6,11 @@ $(function() {
   
     var HT = {};
 
+    HT.sortui = () => {
+        $("#sortable").sortable();
+        $("#sortable").disableSelection();
+    }
+
     HT.changeStatus = () => {
         $(document).on('change','.status', function (e) {
             let _this = $(this);
@@ -119,6 +124,7 @@ $(function() {
         HT.checkBoxItem();
         HT.allChecked();
         HT.changeStatusAll();
+        HT.sortui();
     });
   
   });

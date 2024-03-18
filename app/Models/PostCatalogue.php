@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\PostCatalogueLanguage;
 
+
+use function Laravel\Prompts\alert;
+
 class PostCatalogue extends Model
 {
     use HasFactory, SoftDeletes;
@@ -24,6 +27,7 @@ class PostCatalogue extends Model
         'user_id',
         'follow'
     ];
+    protected $table = 'post_catalogues';
 
     public function languages()
     {
@@ -39,7 +43,17 @@ class PostCatalogue extends Model
             )->withTimestamps();
     }
 
-    public function post_catalogue_language(){
-        return $this->hasMany(PostCatalogueLanguage::class, 'post_catalogue_id','id');
+    public function post_catalogue_language()
+    {
+        return $this->hasMany(PostCatalogueLanguage::class, 'post_catalogue_id', 'id');
+    }
+
+    public static function isNodeCheck($id = 0)
+    {
+       $postCatalogue = PostCatalogue::find($id);
+       if($postCatalogue->rgt - $postCatalogue->lft !== 1){
+            return false;
+       }
+            return true;
     }
 }

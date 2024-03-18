@@ -9,6 +9,7 @@ use App\Services\Interfaces\PostCatalogueServiceInterface as PostCatalogueServic
 use App\Repositories\Interfaces\PostCatalogueRepositoryInterface as PostCatalogueRepository;
 use App\HTTP\Requests\StorePostCatalogueRequest;
 use App\HTTP\Requests\UpdatePostCatalogueRequest;
+use App\HTTP\Requests\DeletePostCatalogueRequest;
 use App\Classes\Nestedsetbie;
 
 
@@ -46,13 +47,13 @@ class PostCatalogueController extends Controller
 
     public function create(Request $request)
     {
-
         $config['method'] = 'create';
         $config['seo'] = config('apps.postcatalogue');
         $dropdown = $this->nestedset->Dropdown();
         return view('backend.post.catalogue.store', compact(
             'config',
-            'dropdown'
+            'dropdown',
+           
         ));
     }
 
@@ -70,14 +71,15 @@ class PostCatalogueController extends Controller
             $id,
             $this->language
         );
-
         $dropdown = $this->nestedset->Dropdown();
+         $album = json_decode($postCatalogue->album);
         $config['method'] = 'edit';
         $config['seo'] = config('apps.postcatalogue');
         return view('backend.post.catalogue.store', compact(
             'config',
             'postCatalogue',
-            'dropdown'
+            'dropdown',
+            'album'
         ));
     }
 
@@ -91,7 +93,10 @@ class PostCatalogueController extends Controller
 
     public function delete($id)
     {
-        $postCatalogue = $this->postCatalogueRepository->findById($id);
+        $postCatalogue = $this->postCatalogueRepository->getPostCatalogueById(
+            $id,
+            $this->language
+        );
         $config['seo'] = config('apps.postcatalogue');
         $config['method'] = 'delete';
         return view('backend.post.catalogue.delete', compact(
@@ -100,8 +105,9 @@ class PostCatalogueController extends Controller
         ));
     }
 
-    public function destroy($id)
+    public function destroy($id, DeletePostCatalogueRequest $request)
     {
+        
         if ($this->postCatalogueService->destroy($id)) {
             return redirect()->route('post.catalogue.index')->with('success', 'Xóa bản ghi thành công');
         }
