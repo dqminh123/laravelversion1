@@ -17,13 +17,16 @@ class AppServiceProvider extends ServiceProvider
         //usercatalogues
         'App\Services\Interfaces\UserCatalogueServiceInterface'=>'App\Services\UserCatalogueService',
         'App\Repositories\Interfaces\UserCatalogueRepositoryInterface'=>'App\Repositories\UserCatalogueRepository',
-        //
+        //postcatalogues
         'App\Services\Interfaces\PostCatalogueServiceInterface'=>'App\Services\PostCatalogueService',
         'App\Repositories\Interfaces\PostCatalogueRepositoryInterface'=>'App\Repositories\PostCatalogueRepository',
+        //post
+        'App\Services\Interfaces\PostServiceInterface'=>'App\Services\PostService',
+        'App\Repositories\Interfaces\PostRepositoryInterface'=>'App\Repositories\PostRepository',
         //language
         'App\Services\Interfaces\LanguageServiceInterface'=>'App\Services\LanguageService',
         'App\Repositories\Interfaces\LanguageRepositoryInterface'=>'App\Repositories\LanguageRepository',
-        //
+        //base
         'App\Services\Interfaces\BaseServiceInterface'=>'App\Services\BaseService',
         'App\Repositories\Interfaces\BaseRepositoryInterface'=>'App\Repositories\BaseRepository',
         //location

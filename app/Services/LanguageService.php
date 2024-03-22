@@ -15,18 +15,33 @@ class LanguageService implements LanguageServiceInterface
     protected $languageRepository;
 
     public function __construct(
-       
+
         LanguageRepository   $languageRepository
     ) {
-       
+
         $this->languageRepository = $languageRepository;
+    }
+
+    public function paginate($request){
+
+        $condition['keyword'] = addslashes($request->input('keyword'));
+        $condition['publish'] = $request->integer('publish');
+        $perPage = $request->integer('perpage');
+        $languages = $this->languageRepository->pagination(
+            $this->paginateSelect(), 
+            $condition, 
+            $perPage,
+            ['id','DESC'],
+            ['path' => 'language/index'], 
+        );
+        return $languages;
     }
 
     public function create($request)
     {
         DB::beginTransaction();
         try {
-            $payload = $request->except(['_token', 'send', ]);
+            $payload = $request->except(['_token', 'send',]);
             $payload['user_id'] = Auth::id();
             $language = $this->languageRepository->create($payload);
             DB::commit();
@@ -44,8 +59,6 @@ class LanguageService implements LanguageServiceInterface
         DB::beginTransaction();
         try {
             $payload = $request->except(['_token', 'send']);
-          
-
             $language = $this->languageRepository->update($id, $payload);
             DB::commit();
             return true;
@@ -62,8 +75,6 @@ class LanguageService implements LanguageServiceInterface
         DB::beginTransaction();
         try {
             $language = $this->languageRepository->delete($id);
-
-
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -78,10 +89,8 @@ class LanguageService implements LanguageServiceInterface
     {
         DB::beginTransaction();
         try {
-            $payload[$post['field']] = (($post['value'] == 1) ? 0 : 1);
-               
+            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
             $language = $this->languageRepository->update($post['modelId'], $payload);
-           
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -97,10 +106,7 @@ class LanguageService implements LanguageServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = $post['value'];
-               
-            $flag=  $this->languageRepository->updateByWhereIn('id',$post['id'],$payload);
-           
-            
+            $flag =  $this->languageRepository->updateByWhereIn('id', $post['id'], $payload);
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -111,27 +117,15 @@ class LanguageService implements LanguageServiceInterface
         }
     }
 
-    // private function changeUserStatus($post, array $array = []){
-        
-    //     DB::beginTransaction();
-    //     try {
-    //         if(isset($post['modelId'])){
-    //             $arrayp[] = $post['modelId'];
-    //         }else{
-    //             $array = $post['id'];
-    //         }
-    //         $payload[$post['field']] = $post['value'];
-    //        $this->languageRepository->updateByWhereIn('user_catalogue_id', $array, $payload);
-            
-    //         DB::commit();
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         echo $e->getMessage();
-    //         die();
-    //         return false;
-    //     }
-    // }
+    private function paginateSelect(){
+        return [
+            'id', 
+            'name', 
+            'canonical',
+            'publish',
+            'image'
+        ];
+    }
 
-    
+
 }

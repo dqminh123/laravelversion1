@@ -33,13 +33,10 @@
         <td>
           {{$user->user_catalogues->name}}
         </td>
-        <td class="text-center">
-          <div class="form-check form-switch">
-            <input type="checkbox" class="form-check-input status form-switch-{{$user->id}} " data-field="publish" data-model="User" value="{{$user->publish}}" id="formSwitch1" 
-            {{ ($user->publish == 1)? 'checked' : '' }} data-modelId="{{$user->id}}">
-            <span class="switchery" style="background-color: rgb(26,179,148);border-color:rgb(26,179,148);box-shadow:rgb(26,179,148) 0px 0px 0px 16px inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;"></span>
-          </div>
-        </td>
+        <td class="text-center js-switch-{{$user->id}}">
+          <input type="checkbox" class="js-switch status " data-field="publish" data-model="{{$model['model']}}" value="{{$user->publish}}"
+          {{ ($user->publish == 1)? 'checked' : '' }} data-modelId="{{$user->id}}">
+      </td>
         <td class="text-center">
           <a href="{{route('user.edit', $user->id)}}" class="btn btn-success"><i class="link-icon" data-feather="edit"></i></a>
           <a href="{{route('user.delete', $user->id)}}" class="btn btn-danger"><i class="link-icon" data-feather="delete"></i></a>

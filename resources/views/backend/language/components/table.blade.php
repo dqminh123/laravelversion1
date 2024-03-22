@@ -6,13 +6,13 @@
         <th>Tên Ngôn Ngữ</th>
         <th>Canonical</th>
         <th>Mô tả</th>
-        <th>Tình trạng</th>
+        <th class="text-center">Tình trạng</th>
         <th class="text-center">Thao Tác</th>
       </tr>
     </thead>
     <tbody>
-      @if(isset($languages) && is_object($languages)) 
-      @foreach($languages as $language)
+      @if (isset($languages) && is_object($languages)) 
+      @foreach ($languages as $language)
       <tr>
         <td><input type="checkbox" value="{{$language->id}}"  class="input-checkbox checkBoxItem"></td>
         <td>
@@ -27,12 +27,9 @@
         <td>
         {{$language->description}}
         </td>
-        <td class="text-center">
-          <div class="form-check form-switch">
-            <input type="checkbox" class="form-check-input status form-switch-{{$language->id}} " data-field="publish" data-model="Language" value="{{$language->publish}}" id="formSwitch1" 
+        <td class="text-center js-switch-{{$language->id}}">
+            <input type="checkbox" class="js-switch status " data-field="publish" data-model="{{$model['model']}}" value="{{$language->publish}}"
             {{ ($language->publish == 1)? 'checked' : '' }} data-modelId="{{$language->id}}">
-            <span class="switchery" style="background-color: rgb(26,179,148);border-color:rgb(26,179,148);box-shadow:rgb(26,179,148) 0px 0px 0px 16px inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;"></span>
-          </div>
         </td>
         <td class="text-center">
           <a href="{{route('language.edit', $language->id)}}" class="btn btn-success"><i class="link-icon" data-feather="edit"></i></a>

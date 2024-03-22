@@ -148,9 +148,9 @@ $(function() {
                 html += '</li>'
             }
            
-            $('.click-to-upload').addClass('hidden')
-            $('#sortable').append(html)
-            $('.upload-list').removeClass('hidden')
+            $('.click-to-upload').addClass('hidden') // sau khi click vao thi an
+            $('#sortable').append(html)   // hien danh sach anh
+            $('.upload-list').removeClass('hidden')  //xoa het anh thi an
         }
         finder.popup();
     }
@@ -162,6 +162,7 @@ $(function() {
             if($('.ui-state-default').length == 0){
                 $('.click-to-upload').removeClass('hidden')
                 $('.upload-list').addClass('hidden')
+                
             }
         })
     }

@@ -43,6 +43,7 @@ License: For each use you must have a valid license purchased only from above li
 	<link rel="stylesheet" href="{{asset('public/backend/assets/vendors/dropzone/dropzone.min.css')}}">
 	<link rel="stylesheet" href="{{asset('public/backend/assets/vendors/dropify/dist/dropify.min.css')}}">
   <!-- Layout styles -->  
+	<link rel="stylesheet" href="{{asset('public/backend/assets/css/switchery/switchery.css')}}">
 	<link rel="stylesheet" href="{{asset('public/backend/assets/css/demo1/style.css')}}">
 	<link rel="stylesheet" href="{{asset('public/backend/assets/css/demo1/customize.css')}}">
 	<link rel="stylesheet" href="{{asset('public/backend/assets/plugin/jquery-ui.css')}}">

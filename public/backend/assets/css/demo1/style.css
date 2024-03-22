@@ -21257,9 +21257,10 @@ div.tox .btn-group-lg > .btn-icon-text.tox-button .btn-icon-append,
   white-space: nowrap;
 }
 .table td img {
-  width: 36px;
-  height: 36px;
-  border-radius: 100%;
+  width: 95px;
+  height: 65px;
+  
+  
 }
 
 .timeline {
@@ -22070,9 +22071,9 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^=col-]:last-
   padding: 0 6px;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background-color: #6571ff;
+  background-color: #666666;
   color: #fff;
-  border-color: #6571ff;
+  border-color: #666666;
   padding: 1px 8px;
   border-radius: 0.15rem;
   margin-top: 5px;

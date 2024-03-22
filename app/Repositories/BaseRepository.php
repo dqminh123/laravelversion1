@@ -53,9 +53,10 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->model->select($column)->with($relation)->findOrFail($modelId);
     }
 
-    public function createLanguagePivot($model, array $payload=[]){
-        return $model->languages()->attach($model->id, $payload);
+    public function createPivot($model, array $payload=[], string $relation = ''){
+        return $model->{$relation}()->attach($model->id, $payload);
     }
+    
 
     public function pagination(
         array $column = ['*'], 
@@ -65,9 +66,11 @@ class BaseRepository implements BaseRepositoryInterface
         array $extend = [],
         array $join = [],
         array $relations = [],
+        array $rawQuery = [],
        
         
     ){
+        //tim kiem 
         $query = $this->model->select($column)->where(function($query) use ($condition){
             if(isset($condition['keyword']) && !empty($condition['keyword'])){
                 $query->where('name','LIKE', '%'.$condition['keyword'].'%');
@@ -83,6 +86,13 @@ class BaseRepository implements BaseRepositoryInterface
             }
             return $query;
         });
+        // tồn tại whereraw và là mảng thì nó sẽ foreach , val[0] tương đương câu truy vấn, val[1] tham số
+        if(isset($rawQuery['whereRaw']) && count($rawQuery['whereRaw'])){
+            foreach($rawQuery['whereRaw'] as $key => $val){
+                $query->whereRaw($val[0],$val[1]);
+            }
+        }
+
         if(isset($relations) && !empty($relation)){
             foreach($relations as $relation){
                 $query->withCount($relation);
@@ -93,6 +103,10 @@ class BaseRepository implements BaseRepositoryInterface
             foreach($join as $key =>$val){
                 $query->Join($val[0],$val[1],$val[2],$val[3]);
             }
+        }
+
+        if(isset($extend['groupBy']) && !empty($extend['groupBy'])){
+            $query->groupBy($extend['groupBy']);
         }
         
         if(isset($orderBy) && !empty($orderBy)){

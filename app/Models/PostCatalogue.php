@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\PostCatalogueLanguage;
+use App\Models\Post;
 
 
 use function Laravel\Prompts\alert;
@@ -41,6 +42,10 @@ class PostCatalogue extends Model
                 'description',
                 'content'
             )->withTimestamps();
+    }
+
+    public function posts(){
+        return $this->belongsToMany(Post::class, 'post_catalogue_post','post_catalogue_id','post_id');
     }
 
     public function post_catalogue_language()

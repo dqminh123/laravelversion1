@@ -25,22 +25,27 @@ class LanguageController extends Controller
         $this->languageService = $languageService;
         $this->languageRepository = $languageRepository;
     }
+    
 
-    public function index()
+    public function index(Request $request)
     {
+        $model = [
+            'model' => 'Language'
+        ];
         $config = $this->config();
         $config['seo'] = config('apps.language');
-        $languages = Language::all()->sortByDesc('created_at');
-        return view('backend.language.index', compact('languages', 'config'));
+        $languages = $this->languageService->paginate($request);
+        return view('backend.language.index', compact('languages', 'config','model'));
     }
 
     public function create(Request $request)
     {
+        
         $config = $this->configData();
         $config['method'] = 'create';
         $config['seo'] = config('apps.language');
         return view('backend.language.store', compact(
-            'config',
+            'config'
         ));
     }
 

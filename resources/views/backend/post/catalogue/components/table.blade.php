@@ -3,7 +3,7 @@
         <tr>
             <th><input type="checkbox" value="" id="checkAll" class="input-checkbox"></th>
             <th>Tên Nhóm</th>
-            <th>Tình trạng</th>
+            <th class="text-center">Tình trạng</th>
             <th class="text-center">Thao Tác</th>
         </tr>
     </thead>
@@ -15,15 +15,9 @@
                     <td>
                         {{  str_repeat('|---',(($postcatalogue->level > 0)?($postcatalogue->level - 1):0)).$postcatalogue->name  }}
                     </td>
-                    <td class="text-center">
-                        <div class="form-check form-switch">
-                            <input type="checkbox" class="form-check-input status form-switch-{{ $postcatalogue->id }} "
-                                data-field="publish" data-model="PostCatalogue" value="{{ $postcatalogue->publish }}"
-                                id="formSwitch1" {{ $postcatalogue->publish == 1 ? 'checked' : '' }}
-                                data-modelId="{{ $postcatalogue->id }}">
-                            <span class="switchery"
-                                style="background-color: rgb(26,179,148);border-color:rgb(26,179,148);box-shadow:rgb(26,179,148) 0px 0px 0px 16px inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;"></span>
-                        </div>
+                    <td class="text-center js-switch-{{$postcatalogue->id}}">
+                        <input type="checkbox" class="js-switch status " data-field="publish" data-model="{{$model['model']}}" value="{{$postcatalogue->publish}}"
+                        {{ ($postcatalogue->publish == 1)? 'checked' : '' }} data-modelId="{{$postcatalogue->id}}">
                     </td>
                     <td class="text-center">
                         <a href="{{ route('post.catalogue.edit', $postcatalogue->id) }}" class="btn btn-success"><i

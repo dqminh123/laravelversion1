@@ -23,6 +23,21 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         $this->userRepository = $userRepository;
     }
 
+    public function paginate($request){
+
+        $condition['keyword'] = addslashes($request->input('keyword'));
+        $condition['publish'] = $request->integer('publish');
+        $perPage = $request->integer('perpage');
+        $userCatalogues = $this->userCatalogueRepository->pagination(
+            $this->paginateSelect(), 
+            $condition, 
+            $perPage,
+            ['id','DESC'],
+            ['path' => 'user/catalogue/index'], 
+        );
+        return $userCatalogues;
+    }
+
     public function create($request)
     {
         DB::beginTransaction();
@@ -79,10 +94,10 @@ class UserCatalogueService implements UserCatalogueServiceInterface
     {
         DB::beginTransaction();
         try {
-            $payload[$post['field']] = (($post['value'] == 1) ? 0 : 1);
+            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
                
             $user = $this->userCatalogueRepository->update($post['modelId'], $payload);
-            $this->changeUserStatus($post);
+            $this->changeUserStatus($post, $payload[$post['field']]);
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -100,7 +115,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
             $payload[$post['field']] = $post['value'];
                
             $flag=  $this->userCatalogueRepository->updateByWhereIn('id',$post['id'],$payload);
-            $this->changeUserStatus($post);
+            $this->changeUserStatus($post, $post['value']);
             
             DB::commit();
             return true;
@@ -112,24 +127,23 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         }
     }
 
-    private function changeUserStatus($post, array $array = []){
-        
+    private function changeUserStatus($post, $value){
         DB::beginTransaction();
-        try {
+        try{
+            $array = [];
             if(isset($post['modelId'])){
-                $arrayp[] = $post['modelId'];
+                $array[] = $post['modelId'];
             }else{
                 $array = $post['id'];
             }
-            $payload[$post['field']] = $post['value'];
-           $this->userRepository->updateByWhereIn('user_catalogue_id', $array, $payload);
-            
+            $payload[$post['field']] = $value;
+            $this->userRepository->updateByWhereIn('user_catalogue_id', $array, $payload);
             DB::commit();
             return true;
-        } catch (\Exception $e) {
+        }catch(\Exception $e ){
             DB::rollBack();
-            echo $e->getMessage();
-            die();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();die();
             return false;
         }
     }
@@ -139,5 +153,14 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         $carbonDate = Carbon::createFromFormat('Y-m-d', $birthday);
         $birthday = $carbonDate->format('Y-m-d H:i:s');
         return $birthday;
+    }
+
+    private function paginateSelect(){
+        return [
+            'id',
+            'name',
+            'description',
+            'publish'
+        ];
     }
 }

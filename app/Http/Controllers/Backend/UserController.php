@@ -29,12 +29,15 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $model = [
+            'model' => 'User'
+        ];
         $config = $this->configData();
         $config['seo'] = config('apps.user');
-        $users = User::all()->sortByDesc('created_at');
-        return view('backend.user.user.index', compact('users', 'config'));
+        $users = $this->userService->paginate($request);
+        return view('backend.user.user.index', compact('users', 'config','model'));
     }
 
     public function create(Request $request)

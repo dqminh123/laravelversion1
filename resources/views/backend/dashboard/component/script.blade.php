@@ -56,3 +56,5 @@
 <script src="{{asset('public/backend/assets/plugin/ckeditor/ckeditor.js')}}"></script>
 <script src="{{asset('public/backend/assets/plugin/jquery-ui.js')}}"></script>
 
+<script src="{{asset('public/backend/assets/plugin/switchery/switchery.js')}}"></script>
+

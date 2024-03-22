@@ -30,7 +30,7 @@ return [
                 ],
                 [
                     'title' => 'Ql Bài Viết',
-                    'route' => 'user.index',
+                    'route' => 'post.index',
                 ]
             ]
         ],

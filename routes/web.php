@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\LanguageController;
 use App\Http\Controllers\Backend\UserCatalogueController;
 use App\Http\Controllers\Backend\PostCatalogueController;
+use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Ajax\LocationController;
 use App\Http\Controllers\Ajax\DashBoardController as AjaxDashboardController;
 
@@ -69,12 +70,23 @@ Route::group(['prefix => backend', 'middleware' => 'admin'], function () {
     Route::get('/post/catalogue/{id}/delete', [PostCatalogueController::class, 'delete'])->where(['id'=> '[0-9]+'])->name('post.catalogue.delete');
     Route::delete('/post/catalogue/{id}/destroy', [PostCatalogueController::class, 'destroy'])->where(['id'=> '[0-9]+'])->name('post.catalogue.destroy');
     
+    //post
+    Route::get('/post/index', [PostController::class, 'index'])->name('post.index');
+    Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
+    Route::post('/post/store', [PostController::class, 'store'])->name('post.store');
+    Route::get('/post/{id}/edit', [PostController::class, 'edit'])->where(['id'=> '[0-9]+'])->name('post.edit');
+    Route::post('/post/{id}/update', [PostController::class, 'update'])->where(['id'=> '[0-9]+'])->name('post.update');
+    Route::get('/post/{id}/delete', [PostController::class, 'delete'])->where(['id'=> '[0-9]+'])->name('post.delete');
+    Route::delete('/post/{id}/destroy', [PostController::class, 'destroy'])->where(['id'=> '[0-9]+'])->name('post.destroy');
+
+    
 
     Route::resources([
         'users' => 'UserController',
         'user_catalogues' => 'UserCatalogueController',
         'languages' => 'LanguageController',
         'post_catalogues' => 'PostCatalogueController',
+        'posts' => 'PostController',
     ]);
 });
 

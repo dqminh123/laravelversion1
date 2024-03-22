@@ -62,10 +62,7 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
                 ['post_catalogue_language as tb2', 'tb2.post_catalogue_id', '=', 'post_catalogues.id']
             ],
             
-           
-
         );
-
         return $postCatalogues;
     }
 
@@ -76,14 +73,13 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
             $payload = $request->only($this->payload());
             $payload['user_id'] = Auth::id();
             $payload['album'] = json_encode($payload['album']);
-            dd($payload);
             $postCatalogue = $this->postCatalogueRepository->create($payload);
             if ($postCatalogue->id > 0) {
                 $payloadLanguage = $request->only($this->payloadLanguage());
                 $payloadLanguage['canonical'] = Str::slug($payloadLanguage['canonical']);
                 $payloadLanguage['language_id'] = $this->currentLanguage();
                 $payloadLanguage['post_catalogue_id'] = $postCatalogue->id;
-                $language = $this->postCatalogueRepository->createLanguagePivot($postCatalogue, $payloadLanguage);
+                $language = $this->postCatalogueRepository->createPivot($postCatalogue, $payloadLanguage, 'languages');
             }
             $this->nestedset->Get('level ASC', 'order ASC'); // Lay du lieu
             $this->nestedset->Recursive(0, $this->nestedset->Set()); // tinh toan lai lft rgt tung node
@@ -112,7 +108,7 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
                 $payloadLanguage['language_id'] = $this->currentLanguage();
                 $payloadLanguage['post_catalogue_id'] = $id;
                 $postCatalogue->languages()->detach([$payloadLanguage['language_id'], $id]);  //detach dùng để thêm bản ghi vào bảng trung gian
-                $response = $this->postCatalogueRepository->createLanguagePivot($postCatalogue, $payloadLanguage);
+                $response = $this->postCatalogueRepository->createPivot($postCatalogue, $payloadLanguage,'languages');
             }
             $this->nestedset->Get('level ASC', 'order ASC'); // Lay du lieu
             $this->nestedset->Recursive(0, $this->nestedset->Set()); // tinh toan lai lft rgt tung node
@@ -151,7 +147,7 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
     {
         DB::beginTransaction();
         try {
-            $payload[$post['field']] = (($post['value'] == 1) ? 0 : 1);
+            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
 
             $language = $this->postCatalogueRepository->update($post['modelId'], $payload);
 
@@ -183,28 +179,6 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
             return false;
         }
     }
-
-    // private function changeUserStatus($post, array $array = []){
-
-    //     DB::beginTransaction();
-    //     try {
-    //         if(isset($post['modelId'])){
-    //             $arrayp[] = $post['modelId'];
-    //         }else{
-    //             $array = $post['id'];
-    //         }
-    //         $payload[$post['field']] = $post['value'];
-    //        $this->languageRepository->updateByWhereIn('user_catalogue_id', $array, $payload);
-
-    //         DB::commit();
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         echo $e->getMessage();
-    //         die();
-    //         return false;
-    //     }
-    // }
 
     private function payload()
     {

@@ -28,21 +28,24 @@ class UserCatalogueController extends Controller
         $this->userCatalogueRepository = $userCatalogueRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $model = [
+            'model' => 'UserCatalogue'
+        ];
         $config = $this->config();
         $config['seo'] = config('apps.usercatalogue');
-        $userCatalogues = UserCatalogue::all()->sortByDesc('created_at');
-        return view('backend.user.catalogue.index', compact('userCatalogues', 'config'));
+        $userCatalogues = $this->userCatalogueService->paginate($request);
+        return view('backend.user.catalogue.index', compact('userCatalogues', 'config','model'));
     }
 
     public function create(Request $request)
     {
-
+       
         $config['method'] = 'create';
         $config['seo'] = config('apps.usercatalogue');
         return view('backend.user.catalogue.store', compact(
-            'config',
+            'config'
         ));
     }
 

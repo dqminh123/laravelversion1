@@ -13,26 +13,10 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <a href="{{ route('language.create') }}" class="btn btn-success"><i class="link-icon"
-                                data-feather="edit"></i> {{ config('apps.language.create.title') }}</a>
-                        <a href="" class="dropdown-toggle btn btn-warning toolbox" data-bs-toggle='dropdown'>
-                            ToolBox <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a class="changeStatusAll xxx" data-value="1" data-field="publish" data-model="Language">
-                                    Publish toàn bộ
-                                </a>
-                            </li>
-                            <li><a class="changeStatusAll xxx" data-value="0" data-field="publish" data-model="Language">
-                                    UnPublish toàn bộ
-                                </a>
-                            </li>
-                        </ul>
+                        @include('backend.language.components.filter')
                         <hr>
                         <h6 class="card-title">{{ $config['seo']['index']['table'] }}</h6>
                         <div class="table-responsive">
-                           
-                           
                             @include('backend.language.components.table')
                         </div>
                     </div>

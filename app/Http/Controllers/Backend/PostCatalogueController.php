@@ -39,10 +39,13 @@ class PostCatalogueController extends Controller
 
     public function index(Request $request)
     {
+        $model = [
+            'model' => 'PostCatalogue'
+        ];
         $config = $this->config();
         $config['seo'] = config('apps.postcatalogue');
         $postCatalogues = $this->postCatalogueService->paginate($request);
-        return view('backend.post.catalogue.index', compact('postCatalogues', 'config'));
+        return view('backend.post.catalogue.index', compact('postCatalogues', 'config','model'));
     }
 
     public function create(Request $request)

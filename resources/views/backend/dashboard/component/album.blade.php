@@ -7,13 +7,14 @@
     </div>
     <hr>
     <div class="ibox-content">
-        {{-- @php
-            $album = (!empty($model->album)) ? json_decode($model->album) : [];
+        @php
+            // $album = (!empty($model->album)) ? json_decode($model->album) : [];
+            //tồn tại album  thì lấy ra $album từ controller sang nếu ko có lấy old
             $gallery = (isset($album) && count($album) ) ? $album : old('album');
-        @endphp --}}
+        @endphp
         <div class="row">
             <div class="col-lg-12">
-                @if (!isset($album) || count($album) == 0)
+                @if (!isset($gallery) || count($gallery) == 0)
                     <div class="click-to-upload">
                         <div class="icon">
                             <a href="" class="upload-picture">
@@ -29,11 +30,11 @@
                     </div>
                 @endif
               
-                <div class="upload-list {{(isset($album) && count($album)) ? '' :'hidden'}}">
+                <div class="upload-list {{(isset($gallery) && count($gallery)) ? '' :'hidden'}}">
                     <div class="row">
                         <ul id="sortable" class="clearfix data-album sortui ui-sortable">
-                            @if(isset($album) && count($album))
-                            @foreach($album as $key => $value)
+                            @if(isset($gallery) && count($gallery))
+                            @foreach($gallery as $key => $value)
                             <li class="ui-state-default">
                                 <div class="thumb">
                                     <span class="span image img-scaledown">

@@ -6,6 +6,14 @@ $(function() {
   
     var HT = {};
 
+    HT.switchery = () => {
+        $('.js-switch').each(function(){
+            // let _this = $(this)
+            var switchery = new Switchery(this, { color: '#1AB394', size: 'small'});
+        })
+    }
+
+    // keo tha anh qua lai
     HT.sortui = () => {
         $("#sortable").sortable();
         $("#sortable").disableSelection();
@@ -29,8 +37,15 @@ $(function() {
                 data: option,
                 dataType: "JSON",
                 success: function (res) {
-                    window.location.reload(true);
-                }
+                    let inputValue = ((option.value == 1)?2:1)
+                    if(res.flag == true){
+                        _this.val(inputValue)
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                  
+                    console.log('Lỗi: ' + textStatus + ' ' + errorThrown);
+                  }
             });
            
                 e.preventDefault()
@@ -61,25 +76,29 @@ $(function() {
                     data: option,
                     dataType: "JSON",
                     success: function (res) {
-                       if(res.flag == true){
-                       let cssActive1 = 'background-color: rgb(26,179,148);border-color:rgb(26,179,148);box-shadow:rgb(26,179,148) 0px 0px 0px 16px inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;';
-                       let cssActive2 ='left: 20px;background-color:rgb(255,255,255);transition:background-color 0.4s ease 0s, left 0.2s ease 0s;';
-                       let cssUnactive1 ='background-color: rgb(255,255,255);border-color:rgb(223,223,223);box-shadow:rgb(223,223,223) 0px 0px 0px 16px inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s;';
-                       let cssUnactive2 = 'left:0px;transition: background-color 0.4s ease 0s, left 0.2s ease 0s;'
-                        for(let i=0;i<id.length;i++){
-                            if(option.value==1){
-                                $('.form-switch-'+id[i]).find('span.switchery').attr('style', cssActive1).find('span.switchery').attr('style', cssActive2)
-                            }else if(option.value==0){
-                                $('.form-switch-'+id[i]).find('span.switchery').attr('style', cssUnactive1).find('span.switchery').attr('style', cssUnactive2)
+                        if(res.flag == true){
+                            let cssActive1 = 'background-color: rgb(26, 179, 148); border-color: rgb(26, 179, 148); box-shadow: rgb(26, 179, 148) 0px 0px 0px 16px inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;';
+                            let cssActive2 = 'left: 13px; background-color: rgb(255, 255, 255); transition: background-color 0.4s ease 0s, left 0.2s ease 0s;';
+                            let cssUnActive = 'background-color: rgb(255, 255, 255); border-color: rgb(223, 223, 223); box-shadow: rgb(223, 223, 223) 0px 0px 0px 0px inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s;'
+                            let cssUnActive2 = 'left: 0px; transition: background-color 0.4s ease 0s, left 0.2s ease 0s;'
+
+                            for(let i = 0; i < id.length; i++){
+                                if(option.value == 1){
+                                    $('.js-switch-'+id[i]).find('span.switchery').attr('style', cssActive1).find('small').attr('style', cssActive2)
+                                }else if(option.value == 0){
+                                    $('.js-switch-'+id[i]).find('span.switchery').attr('style', cssUnActive).find('small').attr('style', cssUnActive2)
+                                }
                             }
                         }
-                       }
-                       e.preventDefault();
-                       window.location.reload(true);
-                    }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                      
+                        console.log('Lỗi: ' + textStatus + ' ' + errorThrown);
+                      }
                     
                    
                 });
+                e.preventDefault();
                 
             });
            
@@ -108,6 +127,11 @@ $(function() {
         if($('.checkBoxItem').length){
             $(document).on('click','.checkBoxItem', function () {
                 let _this = $(this)
+                if(_this.prop('checked')){
+                    _this.closest('tr').addClass('active-bg')
+                }else{
+                   _this.closest('tr').removeClass('active-bg')
+                }
                 HT.allChecked();
             })
         }
@@ -125,6 +149,7 @@ $(function() {
         HT.allChecked();
         HT.changeStatusAll();
         HT.sortui();
+        HT.switchery();
     });
   
   });
