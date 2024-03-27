@@ -15,7 +15,7 @@
                             <div class="row">
 
                                 <div class="mb-3">
-                                    <label class="form-label">Tên Ngôn Ngữ <span class="text-danger">(*)</span></label>
+                                    <label class="form-label">{{__('messages.namelg')}} <span class="text-danger">(*)</span></label>
                                     <input type="text" name="name" id="name" class="form-control"
                                         value="{{ old('name', $language->name ?? '') }}" placeholder="Nhập Tên Ngôn Ngữ">
                                     @if ($errors->has('name'))
@@ -27,7 +27,7 @@
 
                                 <div class="row">
                                     <div class="mb-3">
-                                        <label class="form-label">Canonical <span class="text-danger">(*)</span></label>
+                                        <label class="form-label">{{__('messages.canonicalLanguage')}} <span class="text-danger">(*)</span></label>
                                         <input type="text" name="canonical" id="canonical" class="form-control"
                                             value="{{ old('canonical', $language->canonical ?? '') }}"
                                             placeholder="Nhập Canonical">
@@ -38,7 +38,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Ảnh Đại Diện <span class="text-danger">(*)</span></label>
+                                        <label class="form-label">{{__('messages.ImgLanguage')}} <span class="text-danger">(*)</span></label>
                                         <input type="text" name="image" id="image" class="form-control upload-image" data-type= "Images"
                                             value="{{ old('image', $language->image ?? '') }}" placeholder="Chọn Ảnh">
                                         @if ($errors->has('image'))
@@ -48,7 +48,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Mô Tả <span class="text-danger">(*)</span></label>
+                                        <label class="form-label">{{__('messages.delg')}} <span class="text-danger">(*)</span></label>
                                         <input type="text" name="description" id="description" class="form-control"
                                             value="{{ old('description', $language->description ?? '') }}" placeholder="Nhập Mô Tả">
                                         @if ($errors->has('description'))
@@ -58,8 +58,7 @@
                                     </div>
                                     <!-- Col -->
                                     <button type="submit" name="send" value="send"
-                                        class="btn btn-primary submit">Submit
-                                        form</button>
+                                        class="btn btn-primary submit">{{__('messages.submitButton')}}</button>
                         </form>
 
                     </div>

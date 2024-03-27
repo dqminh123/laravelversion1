@@ -19,13 +19,14 @@ class PostController extends Controller
 
 
     protected $postRepository;
+    protected $languageRepository;
     protected $postService;
     protected $nestedset;
     protected $language;
 
     public function __construct(
         PostRepository  $postRepository,
-        PostService $postService
+        PostService $postService,
     ) {
         $this->postService = $postService;
         $this->postRepository = $postRepository;
@@ -46,6 +47,8 @@ class PostController extends Controller
         $config['seo'] = config('apps.post');
         $dropdown = $this->nestedset->Dropdown();
         $posts = $this->postService->paginate($request);
+       
+        
         return view('backend.post.post.index', compact('posts', 'config','model','dropdown'));
     }
 

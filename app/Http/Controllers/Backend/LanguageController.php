@@ -33,7 +33,7 @@ class LanguageController extends Controller
             'model' => 'Language'
         ];
         $config = $this->config();
-        $config['seo'] = config('apps.language');
+        $config['seo'] = __('messages.language');
         $languages = $this->languageService->paginate($request);
         return view('backend.language.index', compact('languages', 'config','model'));
     }
@@ -43,7 +43,7 @@ class LanguageController extends Controller
         
         $config = $this->configData();
         $config['method'] = 'create';
-        $config['seo'] = config('apps.language');
+        $config['seo'] = __('messages.language');
         return view('backend.language.store', compact(
             'config'
         ));
@@ -62,7 +62,7 @@ class LanguageController extends Controller
         $language = $this->languageRepository->findById($id);
         $config = $this->configData();
         $config['method'] = 'edit';
-        $config['seo'] = config('apps.language');
+        $config['seo'] = __('messages.language');
         return view('backend.language.store', compact(
             'config',
             'language',
@@ -80,7 +80,7 @@ class LanguageController extends Controller
     public function delete($id)
     {
         $language = $this->languageRepository->findById($id);
-        $config['seo'] = config('apps.language');
+        $config['seo'] = __('messages.language');
         $config['method'] = 'delete';
         return view('backend.language.delete', compact(
             'config',
@@ -101,5 +101,15 @@ class LanguageController extends Controller
     }
     private function configData()
     {
+    }
+    // đổi ngôn ngữ back end
+    public function switchBackendLanguage($id){
+        $language = $this->languageRepository->findById($id);
+       if($this->languageService->switch($id)){
+            session(["app_locale" => $language->canonical]);
+            \App::setLocale($language->canonical);
+       };
+       return back();
+        
     }
 }

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('post_language', function (Blueprint $table) {
-            $table->timestamps();
+        Schema::table('languages', function (Blueprint $table) {
+            $table->tinyInteger('current')->default(0);
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('post_language', function (Blueprint $table) {
-            $table->dropTimestamps();
+        Schema::table('languages', function (Blueprint $table) {
+            $table->dropColumn('current');
         });
     }
 };

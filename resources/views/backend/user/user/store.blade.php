@@ -10,13 +10,13 @@
                         @php
                             $url = ($config['method'] == 'create') ? route('user.store') : route('user.update', $user->id);
                         @endphp
-                        <h6 class="card-title" style="font-weight: bolder;color:gold">Thông Tin Chung</h6>
+                        <h6 class="card-title" style="font-weight: bolder;color:gold"> {{__('messages.tableHeading')}}</h6>
                         <form action="{{ $url }}" method="post">
                             @csrf
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Họ Và Tên <span class="text-danger">(*)</span></label>
+                                        <label class="form-label"> {{__('messages.nameus')}} <span class="text-danger">(*)</span></label>
                                         <input type="text" name="name" id="name" class="form-control"
                                             value="{{ old('name', $user->name ?? '') }}" placeholder="Nhập Họ Và Tên">
                                         @if ($errors->has('name'))
@@ -26,7 +26,7 @@
                                     </div>
                                 </div><!-- Col -->
                                 <div class="col-sm-6">
-                                    <label class="form-label">Ngày Sinh</label>
+                                    <label class="form-label"> {{__('messages.birthday')}}</label>
                                     <div class="input-group flatpickr" id="flatpickr-date">
                                         <input type="date" name="birthday" class="form-control" placeholder="dd/mm/yyyy"
                                             data-input
@@ -38,7 +38,7 @@
                                 @if ($config['method'] == 'create')
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label for="Password" class="form-label">Mật Khẩu</label>
+                                            <label for="Password" class="form-label"> {{__('messages.passus')}}</label>
                                             <input type="password" class="form-control" id="password" name="password"
                                                 autocomplete="current-password" placeholder="Nhập Mật Khẩu">
                                             @if ($errors->has('password'))
@@ -49,7 +49,7 @@
                                     </div><!-- Col -->
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Nhập Lại Mật Khẩu <span
+                                            <label class="form-label"> {{__('messages.repassus')}} <span
                                                     class="text-danger">(*)</span></label>
                                             <input type="password" name="re_password" id="re_password" class="form-control"
                                                 autocomplete="off" placeholder="Nhập Lại Mật Khẩu">
@@ -63,7 +63,7 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Email <span class="text-danger">(*)</span></label>
+                                            <label class="form-label"> {{__('messages.emailus')}} <span class="text-danger">(*)</span></label>
                                             <input type="text" name="email" id="email" class="form-control"
                                                 value="{{ old('email', $user->email ?? '') }}" placeholder="Nhập Email">
                                             @if ($errors->has('email'))
@@ -78,7 +78,7 @@
                                     @endphp
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Nhóm Thành Viên <span
+                                            <label class="form-label"> {{__('messages.usc')}} <span
                                                     class="text-danger">(*)</span></label>
                                             <select name="user_catalogue_id" id=""
                                                 class="js-example-basic-single form-select" data-width="100%">
@@ -97,7 +97,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">Ảnh</label>
+                                        <label class="form-label"> {{__('messages.ImgLanguage')}}</label>
                                         <input type="text" name="image" id="image" class="form-control upload-image"
                                             value="{{ old('image', $user->image ?? '') }}" data-upload="Images">
                                     </div>
@@ -105,11 +105,11 @@
                             </div><!-- Row -->
                             <!-- end Thông tin chung -->
                             <hr>
-                            <h6 class="card-title" style="font-weight: bolder;color:gold">Thông Tin Liên hệ</h6>
+                            <h6 class="card-title" style="font-weight: bolder;color:gold"> {{__('messages.tableHeading2')}}</h6>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Thành Phố</label>
+                                        <label class="form-label">{{__('messages.pv')}}</label>
                                         <select name="province_id" id="province_id"
                                             class="js-example-basic-single form-select province location" data-width="100%"
                                             data-target ="districts">
@@ -125,7 +125,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Quận/Huyện</label>
+                                        <label class="form-label">{{__('messages.dt')}}</label>
                                         <select name="district_id"
                                             class="js-example-basic-single form-select districts location"
                                             data-width="100%" data-target="wards">
@@ -135,7 +135,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Phường/Xã</label>
+                                        <label class="form-label">{{__('messages.w')}}</label>
                                         <select name="ward_id" class="js-example-basic-single form-select wards"
                                             data-width="100%">
                                             <option value="0">[ Chọn Phường/Xã ]</option>
@@ -144,7 +144,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Địa Chỉ</label>
+                                        <label class="form-label"> {{__('messages.addressus')}}</label>
                                         <input type="text" name="address" id="address" class="form-control"
                                             value="{{ old('address', $user->address ?? '') }}"
                                             placeholder="Nhập Địa Chỉ">
@@ -152,7 +152,7 @@
                                 </div><!-- Col -->
                                 <div class="col-sm-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Số Điện Thoại</label>
+                                        <label class="form-label"> {{__('messages.phoneus')}}</label>
                                         <input type="number" name="phone" id="phone" class="form-control"
                                             value="{{ old('phone', $user->phone ?? '') }}"
                                             placeholder="Nhập Số Điện Thoại">
@@ -160,7 +160,7 @@
                                 </div><!-- Col -->
                                 <div class="col-sm-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Ghi Chú</label>
+                                        <label class="form-label"> {{__('messages.deusc')}}</label>
                                         <input type="text" name="description" id="description" class="form-control"
                                             value="{{ old('description', $user->description ?? '') }}"
                                             placeholder="Nhập Ghi Chú">

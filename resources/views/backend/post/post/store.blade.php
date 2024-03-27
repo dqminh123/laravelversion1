@@ -34,8 +34,7 @@
                                     </div>
                                 </div>
                                 <div class="text-right button-fix">
-                                    <button type="submit" name="send" value="send" class="btn btn-success">Submit
-                                        form</button>
+                                    <button type="submit" name="send" value="send" class="btn btn-success">{{__('messages.submitButton')}}</button>
                                 </div>
                             </div>
                             

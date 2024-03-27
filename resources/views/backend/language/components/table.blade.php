@@ -2,12 +2,12 @@
     <thead>
       <tr>
         <th><input type="checkbox" value="" id="checkAll" class="input-checkbox"></th> 
-        <th>Ảnh</th>
-        <th>Tên Ngôn Ngữ</th>
-        <th>Canonical</th>
-        <th>Mô tả</th>
-        <th class="text-center">Tình trạng</th>
-        <th class="text-center">Thao Tác</th>
+        <th>{{__('messages.ImgLanguage')}}</th>
+        <th>{{__('messages.namelg')}}</th>
+        <th>{{__('messages.canonicalLanguage')}}</th>
+        <th>{{__('messages.delg')}}</th>
+        <th class="text-center">{{__('messages.tableStatus')}}</th>
+        <th class="text-center">{{__('messages.tableActive')}}</th>
       </tr>
     </thead>
     <tbody>

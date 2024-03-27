@@ -34,7 +34,7 @@ class UserCatalogueController extends Controller
             'model' => 'UserCatalogue'
         ];
         $config = $this->config();
-        $config['seo'] = config('apps.usercatalogue');
+        $config['seo'] = __('messages.userCatalogue');
         $userCatalogues = $this->userCatalogueService->paginate($request);
         return view('backend.user.catalogue.index', compact('userCatalogues', 'config','model'));
     }
@@ -43,7 +43,7 @@ class UserCatalogueController extends Controller
     {
        
         $config['method'] = 'create';
-        $config['seo'] = config('apps.usercatalogue');
+        $config['seo'] = __('messages.userCatalogue');
         return view('backend.user.catalogue.store', compact(
             'config'
         ));
@@ -61,7 +61,7 @@ class UserCatalogueController extends Controller
     {
         $userCatalogue = $this->userCatalogueRepository->findById($id);
         $config['method'] = 'edit';
-        $config['seo'] = config('apps.usercatalogue');
+        $config['seo'] = __('messages.userCatalogue');
         return view('backend.user.catalogue.store', compact(
             'config',
             'userCatalogue',
@@ -79,7 +79,7 @@ class UserCatalogueController extends Controller
     public function delete($id)
     {
         $userCatalogue = $this->userCatalogueRepository->findById($id);
-        $config['seo'] = config('apps.usercatalogue');
+        $config['seo'] = __('messages.userCatalogue');
         $config['method'] = 'delete';
         return view('backend.user.catalogue.delete', compact(
             'config',

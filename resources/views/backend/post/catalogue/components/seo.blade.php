@@ -1,27 +1,27 @@
 <div class="ibox">
     <div class="ibox-title">
-        <h5>Cấu Hình SEO</h5>
+        <h5>{{__('messages.seo')}}</h5>
     </div>
     <div class="ibox-content">
         <div class="seo-container">
             <div class="meta-title">
                 {{ old('meta_title', $postCatalogue->meta_title ?? '') ? 
                 old('meta_title', $postCatalogue->meta_title ?? '')
-                : 'Bạn chưa có tiều đề SEO' }}
+                : __('messages.seo_title') }}
             </div>
             <div class="canonical">
                 {{ old('canonical', $postCatalogue->canonical ?? '')
                     ? config('app.url') . old('canonical', $postCatalogue->canonical ?? '') . config('apps.general.suffix')
-                    : 'http://duong-dan-cua-ban.html' }}
+                    : __('messages.seo_canonical') }}
             </div>
             <div class="meta_description">
                 {{ old('meta_description', $postCatalogue->meta_description ?? '')? 
                 old('meta_description', $postCatalogue->meta_description ?? '') 
-                : 'Bạn chưa có mô tả SEO' }}
+                : __('messages.seo_description') }}
             </div>
             <div class="meta_keyword">
                 {{ old('meta_keyword', $postCatalogue->meta_keyword ?? '')? 
-                old('meta_keyword', $postCatalogue->meta_keyword ?? '') : 'Bạn chưa có từ khóa SEO' }}</div>
+                old('meta_keyword', $postCatalogue->meta_keyword ?? '') : __('messages.seo_keyword') }}</div>
         </div>
         <div class="seo-wrapper">
             <div class="row mb-3">
@@ -29,8 +29,8 @@
                     <div class="form-row">
                         <label for="" class="control-label text-left">
                             <div class="uk-flex uk-flex-middle uk-flex-space-between">
-                                <span>Mô Tả SEO</span>
-                                <span class="count_meta-title">0 ký tự</span>
+                                <span class="tl">{{__('messages.seo_meta_title')}}</span>
+                                <span class="count_meta-title text-left">0 {{__('messages.character')}}</span>
                             </div>
                         </label>
                         <input type="text" name="meta_title"
@@ -43,7 +43,7 @@
                 <div class="col-lg-12">
                     <div class="form-row">
                         <label for="" class="control-label text-left">
-                            <span>Từ khóa SEO</span>
+                            <span>{{__('messages.seo_meta_keyword')}}</span>
                         </label>
                         <input type="text" name="meta_keyword"
                             value="{{ old('meta_keyword', $postCatalogue->meta_keyword ?? '') }}" class="form-control"
@@ -56,8 +56,8 @@
                     <div class="form-row">
                         <label for="" class="control-label text-left">
                             <div class="uk-flex uk-flex-middle uk-flex-space-between">
-                                <span>Mô Tả SEO</span>
-                                <span class="count_meta-description">0 ký tự</span>
+                                <span class="tl">{{__('messages.seo_meta_title')}}</span>
+                                <span class="count_meta-title text-left">0 {{__('messages.character')}}</span>
                             </div>
                         </label>
                         <textarea type="text" name="meta_description" class="form-control" placeholder="" autocomplete="off">{{ old('meta_description', $postCatalogue->meta_description ?? '') }}</textarea>
@@ -68,7 +68,7 @@
                 <div class="col-lg-12">
                     <div class="form-row">
                         <label for="" class="control-label text-left">
-                            <span>Đường dẫn <span class="text-danger">(*)</span></span>
+                            <span>{{__('messages.seo_meta_canonical')}} <span class="text-danger">(*)</span></span>
                         </label>
                         <div class="input-wrapper">
                             <input type="text" name="canonical"

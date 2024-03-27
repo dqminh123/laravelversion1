@@ -43,7 +43,7 @@ class PostCatalogueController extends Controller
             'model' => 'PostCatalogue'
         ];
         $config = $this->config();
-        $config['seo'] = config('apps.postcatalogue');
+        $config['seo'] = __('messages.postCatalogue');
         $postCatalogues = $this->postCatalogueService->paginate($request);
         return view('backend.post.catalogue.index', compact('postCatalogues', 'config','model'));
     }
@@ -51,7 +51,7 @@ class PostCatalogueController extends Controller
     public function create(Request $request)
     {
         $config['method'] = 'create';
-        $config['seo'] = config('apps.postcatalogue');
+        $config['seo'] = __('messages.postCatalogue');
         $dropdown = $this->nestedset->Dropdown();
         return view('backend.post.catalogue.store', compact(
             'config',
@@ -77,7 +77,7 @@ class PostCatalogueController extends Controller
         $dropdown = $this->nestedset->Dropdown();
          $album = json_decode($postCatalogue->album);
         $config['method'] = 'edit';
-        $config['seo'] = config('apps.postcatalogue');
+        $config['seo'] = __('messages.postCatalogue');
         return view('backend.post.catalogue.store', compact(
             'config',
             'postCatalogue',
@@ -100,7 +100,7 @@ class PostCatalogueController extends Controller
             $id,
             $this->language
         );
-        $config['seo'] = config('apps.postcatalogue');
+        $config['seo'] = __('messages.postCatalogue');
         $config['method'] = 'delete';
         return view('backend.post.catalogue.delete', compact(
             'config',

@@ -2,14 +2,14 @@
     <thead>
       <tr>
         <th><input type="checkbox" value="" id="checkAll" class="input-checkbox"></th>
-        <th>Ảnh</th>
-        <th>Họ Tên</th>
-        <th>Email</th>
-        <th>Số điện thoại</th>
-        <th>Địa chỉ</th>
-        <th>Nhóm Thành Viên</th>
-        <th class="text-center">Tình Trạng</th>
-        <th class="text-center">Thao Tác</th>
+        <th> {{__('messages.ImgLanguage')}}</th>
+        <th> {{__('messages.nameus')}}</th>
+        <th> {{__('messages.emailus')}}</th>
+        <th> {{__('messages.phoneus')}}</th>
+        <th> {{__('messages.addressus')}}</th>
+        <th> {{__('messages.usc')}}</th>
+        <th class="text-center"> {{__('messages.tableStatus')}}</th>
+        <th class="text-center"> {{__('messages.tableActive')}}</th>
       </tr>
     </thead>
     <tbody>

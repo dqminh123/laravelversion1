@@ -28,12 +28,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 // Authentication Backend
-Route::get('/backend/dashboard', [DashBoardController::class, 'index'])
-    ->name('home.index')->middleware('admin');
 
 
 //User
-Route::group(['prefix => backend', 'middleware' => 'admin'], function () {
+Route::group(['prefix => backend', 'middleware' => ['admin', 'locale']], function () {
+    // Dashboard
+    Route::get('/dashboard', [DashBoardController::class, 'index'])->name('home.index');
     //user
     Route::get('/user/index', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
@@ -60,6 +60,7 @@ Route::group(['prefix => backend', 'middleware' => 'admin'], function () {
     Route::post('/language/{id}/update', [LanguageController::class, 'update'])->where(['id'=> '[0-9]+'])->name('language.update');
     Route::get('/language/{id}/delete', [LanguageController::class, 'delete'])->where(['id'=> '[0-9]+'])->name('language.delete');
     Route::delete('/language/{id}/destroy', [LanguageController::class, 'destroy'])->where(['id'=> '[0-9]+'])->name('language.destroy');
+    Route::get('/language/{id}/switch', [LanguageController::class, 'switchBackendLanguage'])->where(['id'=> '[0-9]+'])->name('language.switch');
 
     //postcatalogue
     Route::get('/post/catalogue/index', [PostCatalogueController::class, 'index'])->name('post.catalogue.index');

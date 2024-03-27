@@ -1,47 +1,44 @@
 <?php
-
-use Illuminate\Support\Facades\Route;
-
 return [
     'module' => [
         [
-            'title' => 'Ql Nhóm Thành Viên',
+            'title' => 'User',
             'icon' => 'fa fa-user',
             'name' => 'User',
             'subModule' => [
                 [
-                    'title' => 'Ql Nhóm Thành Viên',
+                    'title' => 'User Group ',
                     'route' => 'user.catalogue.index',
                 ],
                 [
-                    'title' => 'Ql Thành Viên',
+                    'title' => 'User',
                     'route' => 'user.index',
                 ]
             ]
         ],
         [
-            'title' => 'Ql Bài Viết',
+            'title' => 'Article',
             'icon' => 'fa fa-file',
-            'name' => 'Post',
+            'name' => 'Article',
             'subModule' => [
                 [
-                    'title' => 'Ql Nhóm Bài Viết',
+                    'title' => 'Article Group',
                     'route' => 'post.catalogue.index',
                 ],
                 [
-                    'title' => 'Ql Bài Viết',
+                    'title' => 'Article',
                     'route' => 'post.index',
                 ]
             ]
         ],
 
         [
-            'title' => 'Cấu Hình Chung',
+            'title' => 'General',
             'icon' => 'fa fa-file',
             'name' => 'Language',
             'subModule' => [
                 [
-                    'title' => 'Ql Ngôn Ngữ',
+                    'title' => 'Language',
                     'route' => 'language.index',
 
                 ],

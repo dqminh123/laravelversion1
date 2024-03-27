@@ -37,7 +37,7 @@
                     </td>
                     <td class="text-center">
                         <input type="text" name="order" value="{{ $post->order }}"
-                            class="form-control sort-order text-center" data-id="{{ $post->id }}"
+                            class="form-control sort-order text-center" readonly data-id="{{ $post->id }}"
                             data-model="{{ $model['model'] }}">
                     </td>
                     <td class="text-center js-switch-{{ $post->id }}">

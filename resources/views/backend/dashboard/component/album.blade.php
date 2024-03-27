@@ -1,8 +1,8 @@
 <div class="ibox mb-3">
     <div class="ibox-title">
         <div class="uk-flex uk-flex-middle uk-flex-space-between">
-            <h5>Album Ảnh</h5>
-            <div class="upload-album"><a href="" class="upload-picture">Chọn Hình</a></div>
+            <h5>{{__('messages.album')}}</h5>
+            <div class="upload-album"><a href="" class="upload-picture">{{__('messages.album_up')}}</a></div>
         </div>
     </div>
     <hr>

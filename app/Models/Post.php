@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\PostCatalogueLanguage;
+use App\Traits\QueryScopes;
 
 
 use function Laravel\Prompts\alert;
 
 class Post extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, QueryScopes;
 
     protected $fillable = [
         'image',

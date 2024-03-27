@@ -19,7 +19,7 @@
                                     <div class="col-lg-9">
                                         <div class="ibox">
                                             <div class="ibox-title">
-                                                <h5>Thông tin chung</h5>
+                                                <h5>{{__('messages.tableHeading')}}</h5>
                                             </div>
                                             <hr>
                                             <div class="ibox-content">
@@ -34,8 +34,7 @@
                                     </div>
                                 </div>
                                 <div class="text-right button-fix">
-                                    <button type="submit" name="send" value="send" class="btn btn-success">Submit
-                                        form</button>
+                                    <button type="submit" name="send" value="send" class="btn btn-success">{{__('messages.submitButton')}}</button>
                                 </div>
                             </div>
                             

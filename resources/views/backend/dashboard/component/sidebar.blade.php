@@ -14,15 +14,8 @@
     </div>
     <div class="sidebar-body">
         <ul class="nav">
-            <li class="nav-item nav-category">Main</li>
-            <li class="nav-item">
-                <a href="{{ route('home.index') }}" class="nav-link">
-                    <i class="link-icon" data-feather="box"></i>
-                    <span class="link-title">Dashboard</span>
-                </a>
-            </li>
             <div id="accordion">
-            @foreach (config('apps.module.module') as $key => $val)
+            @foreach ((__('sidebar.module')) as $key => $val)
                 <li class="nav-item nav-category">{{ $val['name'] }}</li>
                 <li class="nav-item{{ (in_array($val['name'],$segment)) ? 'active' : '' }}">
                     <a class="nav-link" data-bs-toggle="collapse" data-bs-target="{{'#'.$val['name']}}" role="button" aria-expanded="false"

@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\PostCatalogueLanguage;
 use App\Models\Post;
+use App\Traits\QueryScopes;
 
 
 use function Laravel\Prompts\alert;
 
 class PostCatalogue extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, QueryScopes;
 
     protected $fillable = [
         'parent_id',

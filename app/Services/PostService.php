@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\Interfaces\PostServiceInterface;
 use App\Services\Interfaces\BaseServiceInterface;
 use App\Repositories\Interfaces\PostRepositoryInterface as PostRepository;
+use App\Repositories\Interfaces\RouterRepositoryInterface as RouterRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,54 +18,55 @@ class PostService extends BaseService implements PostServiceInterface
 {
 
     protected $postRepository;
+    protected $routerRepository;
     protected $nestedset;
     protected $language;
 
     public function __construct(
 
         PostRepository   $postRepository,
+        RouterRepository $routerRepository
 
     ) {
         $this->postRepository = $postRepository;
         $this->language = $this->currentLanguage();
+        $this->routerRepository = $routerRepository;
+        $this->controllerName = 'PostController';
     }
     //phân trang
     public function paginate($request)
     {
         $perPage = $request->integer('perpage');
         $condition = [
-            'keyword' => addslashes($request->input('keyword')),
+            'keyword' => ($request->input('keyword')) ? addslashes($request->input('keyword')) : '',
             'publish' => $request->integer('publish'),
             'where' => [
                 ['tb2.language_id', '=', $this->language],
-
-            ]
+            ],
         ];
-        // tham số thứ 1 là cái mảng select
-        // tham số thứ 2 là cái mảng điều kiện $conditon
-        // tham số thứ 3 là số trang (dữ iệu kiểu int)
-        // tham số thứ 4 là mảng
-        $posts = $this->postRepository->pagination(
-            $this->paginateSelect(),
-            $condition,
-            $perPage,
-            [
-                'posts.id', 'DESC', //desc moi dua len truoc
-            ],
-            [
-                'path' => 'post.index',
-                'groupBy' => $this->paginateSelect()
-            ],
-            
-            [
-                ['post_language as tb2', 'tb2.post_id', '=', 'posts.id'],
-                ['post_catalogue_post as tb3', 'posts.id', '=', 'tb3.post_id'],
-            ],
-            ['post_catalogues'],
-             $this->whereRaw($request), // lấy hết bài viết - bắt điều kiện nào thì lọc theo dk đó
-           
-        );
+        $paginationConfig = [
+            'path' => 'post.index', 
+            'groupBy' => $this->paginateSelect()
+        ];
+        $orderBy = ['posts.id', 'DESC'];
+        $relations = ['post_catalogues'];
+        $rawQuery = $this->whereRaw($request, $this->language);
+        // dd($rawQuery);
+        $joins = [
+            ['post_language as tb2', 'tb2.post_id', '=', 'posts.id'],
+            ['post_catalogue_post as tb3', 'posts.id', '=', 'tb3.post_id'],
+        ];
 
+        $posts = $this->postRepository->pagination(
+            $this->paginateSelect(), 
+            $condition, 
+            $perPage,
+            $orderBy,
+            $paginationConfig,  
+            $joins,  
+            $relations,
+            $rawQuery
+        ); 
         return $posts;
     }
     //thêm
@@ -76,6 +78,7 @@ class PostService extends BaseService implements PostServiceInterface
             if ($post->id > 0) {
                 $this->updateLanguageForPost($post,$request);
                 $this->updateCatalogueForPost($post,$request);
+                $this->createRouter($post, $request, $this->controllerName);
             }
             DB::commit();
             return true;
@@ -95,6 +98,7 @@ class PostService extends BaseService implements PostServiceInterface
             if ($this->uploadPost($post,$request)) {
                 $this->updateLanguageForPost($post,$request);
                 $this->updateCatalogueForPost($post,$request);
+                $this->updateRouter($post ,$request, $this->controllerName);
             }
             DB::commit();
             return true;
@@ -174,9 +178,7 @@ class PostService extends BaseService implements PostServiceInterface
         return $this->postRepository->update($post->id, $payload);
     }
     // định dạng album
-    private function formatAlbum($request){
-        return ($request->input('album') && !empty($request->input('album'))) ? json_encode($request->input('album')) : '';
-    }
+   
     // cập nhật post_language
     private function updateLanguageForPost($post,$request){
         $payload = $request->only($this->payloadLanguage());
