@@ -16,15 +16,15 @@
         <ul class="nav">
             <div id="accordion">
             @foreach ((__('sidebar.module')) as $key => $val)
-                <li class="nav-item nav-category">{{ $val['name'] }}</li>
-                <li class="nav-item{{ (in_array($val['name'],$segment)) ? 'active' : '' }}">
-                    <a class="nav-link" data-bs-toggle="collapse" data-bs-target="{{'#'.$val['name']}}" role="button" aria-expanded="false"
-                        aria-controls="emails">
+                <li class="nav-item nav-category">{{ $val['name'][0]}}</li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $loop->index }}" role="button" aria-expanded="false"
+                        aria-controls="collapse-{{ $loop->index }}">
                         <i class="{{ $val['icon'] }}"></i>
                         <span class="link-title">{{ $val['title'] }}</span>
                         <i class="link-arrow" data-feather="chevron-down"></i>
                     </a>
-                    <div class="collapse" id="{{$val['name']}}" data-parent="#accordion">
+                    <div class="collapse {{ $loop->index == $val ? 'show' : '' }}" id="collapse-{{ $loop->index }}" data-parent="{{ $loop->first ? '' : '#accordion' }}">
                         @if (isset($val['subModule']))
                             <ul class="nav sub-menu">
                                 @foreach ($val['subModule'] as $module)

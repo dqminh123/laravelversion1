@@ -11,8 +11,8 @@
                         @php
                             $url =
                                 $config['method'] == 'create'
-                                    ? route('user.catalogue.store')
-                                    : route('user.catalogue.update', $userCatalogue->id);
+                                    ? route('permission.store')
+                                    : route('permission.update', $permission->id);
                         @endphp
                         <form action="{{ $url }}" method="post" class="box">
                             @csrf
@@ -20,12 +20,10 @@
                                 <div class="row">
                                     <div class="col-lg-5">
                                         <div class="panel-head">
-                                            <div class="panel-title" style="color:red;font-weight:bold;font-size:18px">
-                                                {{ __('messages.tableHeading') }}</div>
+                                            <div class="panel-title" style="color:red;font-weight:bold;font-size:18px">{{__('messages.tableHeading')}}</div>
                                             <div class="panel-description">
-                                                <p>{{ __('messages.dep') }}</p>
-                                                <p>{{ __('messages.note') }} <span class="text-danger">(*)</span>
-                                                    {{ __('messages.note_rq') }}</p>
+                                                <p>{{__('messages.dep')}}</p>
+                                                <p>{{__('messages.note')}} <span class="text-danger">(*)</span> {{__('messages.note_rq')}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -35,13 +33,12 @@
                                                 <div class="row mb15">
                                                     <div class="col-lg-6">
                                                         <div class="form-row">
-                                                            <label for=""
-                                                                class="control-label text-left">{{ __('messages.nameusc') }}
+                                                            <label for="" class="control-label text-left">{{__('messages.title')}}
                                                                 <span class="text-danger">(*)</span></label>
                                                             <input type="text" name="name"
-                                                                value="{{ old('name', $userCatalogue->name ?? '') }}"
+                                                                value="{{ old('name', $permission->name ?? '') }}"
                                                                 class="form-control" placeholder="" autocomplete="off">
-                                                            @if ($errors->has('name'))
+                                                                @if ($errors->has('name'))
                                                                 <span class="error-message" style="color: red">*
                                                                     {{ $errors->first('name') }}</span>
                                                             @endif
@@ -50,10 +47,10 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-row">
                                                             <label for=""
-                                                                class="control-label text-left">{{ __('messages.deusc') }}
-                                                                <span class="text-danger">(*)</span></label>
+                                                                class="control-label text-left">{{__('messages.canonicalLanguage')}}<span
+                                                                    class="text-danger">(*)</span></label>
                                                             <input type="text" name="canonical"
-                                                                value="{{ old('canonical', $userCatalogue->description ?? '') }}"
+                                                                value="{{ old('canonical', $permission->canonical ?? '') }}"
                                                                 class="form-control" placeholder="" autocomplete="off">
                                                                 @if ($errors->has('canonical'))
                                                                 <span class="error-message" style="color: red">*
@@ -68,8 +65,7 @@
                                     </div>
                                 </div>
                                 <div class="text-left" style="margin-left: 950px">
-                                    <button class="btn btn-primary" type="submit" name="send"
-                                        value="send">{{ __('messages.submitButton') }}</button>
+                                    <button class="btn btn-primary" type="submit" name="send" value="send">{{__('messages.submitButton')}}</button>
                                 </div>
                             </div>
                         </form>

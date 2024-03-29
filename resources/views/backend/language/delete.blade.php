@@ -8,24 +8,48 @@
                 <div class="card">
                     <div class="card-body">
             
-                        <h6 class="card-title" style="font-weight: bolder;color:gold">{{__('messages.generalTitle')}}</h6>
-                        <form action="{{route('language.destroy', $language->id)}}" method="post">
+                        <form action="{{ route('language.destroy', $language->id) }}" method="post" class="box">
                             @csrf
                             @method('DELETE')
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">{{__('messages.namelg')}} <span class="text-danger">(*)</span></label>
-                                        <input type="text" name="name" id="name" class="form-control"
-                                            value="{{ old('name', $language->name ?? '') }}" placeholder="Nhập Họ Và Tên" readonly>
-                                        @if ($errors->has('name'))
-                                            <span class="error-message" style="color: red">*
-                                                {{ $errors->first('name') }}</span>
-                                        @endif
+                            <div class="wrapper wrapper-content animated fadeInRight">
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <div class="panel-head">
+                                            <div class="panel-title" style="color: blue;font-weight:bold;font-size:15px">Thông tin chung</div>
+                                            <div class="panel-description">
+                                                <p>Bạn đang muốn xóa ngôn ngữ có tên là: <span class="text-danger">{{ $language->name }}</span></p>
+                                                <p>Lưu ý: Không thể khôi phục ngôn ngữ sau khi xóa. Hãy chắc chắn bạn muốn thực hiện chức năng này</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div><!-- Col -->
-                                
-                            <button type="submit" name="send" value="send" class="btn btn-danger submit">{{__('messages.deleteButton')}}</button>
+                                    <div class="col-lg-7">
+                                        <div class="ibox">
+                                            <div class="ibox-content">
+                                                <div class="row mb15">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-row">
+                                                            <label for="" class="control-label text-left">Tên nhóm <span class="text-danger">(*)</span></label>
+                                                            <input 
+                                                                type="text"
+                                                                name="name"
+                                                                value="{{ old('name', ($language->name) ?? '' ) }}"
+                                                                class="form-control"
+                                                                placeholder=""
+                                                                autocomplete="off"
+                                                                readonly
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="text-right" style="margin-left: 920px">
+                                    <button class="btn btn-danger" type="submit" name="send" value="send">Xóa dữ liệu</button>
+                                </div>
+                            </div>
                         </form>
 
                     </div>

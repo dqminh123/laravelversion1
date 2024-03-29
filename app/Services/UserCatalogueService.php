@@ -33,7 +33,9 @@ class UserCatalogueService implements UserCatalogueServiceInterface
             $condition, 
             $perPage,
             ['id','DESC'],
-            ['path' => 'user/catalogue/index'], 
+            ['path' => 'user/catalogue/index'],
+            [],
+            ['users']
         );
         return $userCatalogues;
     }
@@ -43,7 +45,6 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         DB::beginTransaction();
         try {
             $payload = $request->except(['_token', 'send', ]);
-           
             $user = $this->userCatalogueRepository->create($payload);
             DB::commit();
             return true;
@@ -60,8 +61,6 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         DB::beginTransaction();
         try {
             $payload = $request->except(['_token', 'send']);
-          
-
             $user = $this->userCatalogueRepository->update($id, $payload);
             DB::commit();
             return true;
@@ -78,8 +77,6 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         DB::beginTransaction();
         try {
             $user = $this->userCatalogueRepository->delete($id);
-
-
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -94,8 +91,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
     {
         DB::beginTransaction();
         try {
-            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
-               
+            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);  
             $user = $this->userCatalogueRepository->update($post['modelId'], $payload);
             $this->changeUserStatus($post, $payload[$post['field']]);
             DB::commit();
@@ -112,8 +108,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
     {
         DB::beginTransaction();
         try {
-            $payload[$post['field']] = $post['value'];
-               
+            $payload[$post['field']] = $post['value'];   
             $flag=  $this->userCatalogueRepository->updateByWhereIn('id',$post['id'],$payload);
             $this->changeUserStatus($post, $post['value']);
             
@@ -125,6 +120,31 @@ class UserCatalogueService implements UserCatalogueServiceInterface
             die();
             return false;
         }
+    }
+
+    // phân quyền
+    public function setPermission($request){
+        DB::beginTransaction();
+        try {
+                $permission = $request->input('permission');
+                if(count($permission)){
+                    foreach($permission as $key => $value){
+                        $userCatalogue = $this->userCatalogueRepository->findById($key);
+                        $userCatalogue->permissions()->detach(); // detach xóa cữ liệu cũ  trước khi thêm mới
+                        $userCatalogue->permissions()->sync($value);
+                       
+                    }
+                }
+            
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+        // mục đích là đưa được dữ liệu vào bên trong bảng user_catalogue_permission
     }
 
     private function changeUserStatus($post, $value){

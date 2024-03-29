@@ -111,7 +111,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">{{__('messages.pv')}}</label>
                                         <select name="province_id" id="province_id"
-                                            class="js-example-basic-single form-select province location" data-width="100%"
+                                            class="js-example-basic-single form-select form-control province location" data-width="100%"
                                             data-target ="districts">
                                             <option value="0">[ Chọn Thành Phố ]</option>
                                             @if (isset($provinces))
@@ -127,7 +127,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">{{__('messages.dt')}}</label>
                                         <select name="district_id"
-                                            class="js-example-basic-single form-select districts location"
+                                            class="js-example-basic-single form-select form-control districts location"
                                             data-width="100%" data-target="wards">
                                             <option value="0">[ Chọn Quận/Huyện ]</option>
                                         </select>
@@ -136,7 +136,7 @@
                                 <div class="col-sm-6">
                                     <div class="mb-3">
                                         <label class="form-label">{{__('messages.w')}}</label>
-                                        <select name="ward_id" class="js-example-basic-single form-select wards"
+                                        <select name="ward_id" class="js-example-basic-single form-select form-control wards"
                                             data-width="100%">
                                             <option value="0">[ Chọn Phường/Xã ]</option>
                                         </select>
@@ -168,8 +168,7 @@
                                 </div><!-- Col -->
                             </div><!-- Row -->
 
-                            <button type="submit" name="send" value="send" class="btn btn-primary submit">Submit
-                                form</button>
+                            <button type="submit" name="send" value="send" class="btn btn-primary submit">{{__('messages.submitButton')}}</button>
                         </form>
 
                     </div>

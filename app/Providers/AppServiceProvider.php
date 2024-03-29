@@ -17,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
         //usercatalogues
         'App\Services\Interfaces\UserCatalogueServiceInterface'=>'App\Services\UserCatalogueService',
         'App\Repositories\Interfaces\UserCatalogueRepositoryInterface'=>'App\Repositories\UserCatalogueRepository',
+        //permission
+        'App\Services\Interfaces\PermissionServiceInterface'=>'App\Services\PermissionService',
+        'App\Repositories\Interfaces\PermissionRepositoryInterface'=>'App\Repositories\PermissionRepository',
         //postcatalogues
         'App\Services\Interfaces\PostCatalogueServiceInterface'=>'App\Services\PostCatalogueService',
         'App\Repositories\Interfaces\PostCatalogueRepositoryInterface'=>'App\Repositories\PostCatalogueRepository',

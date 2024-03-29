@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\UserCatalogueServiceInterface as UserCatalogueService;
 use App\Repositories\Interfaces\UserCatalogueRepositoryInterface as UserCatalogueRepository;
+use App\Repositories\Interfaces\PermissionRepositoryInterface as PermissionRepository;
 use App\HTTP\Requests\StoreUserRequest;
 use App\HTTP\Requests\StoreUserCatalogueRequest;
 use App\HTTP\Requests\UpdateUserRequest;
@@ -16,16 +17,19 @@ use App\HTTP\Requests\UpdateUserRequest;
 class UserCatalogueController extends Controller
 {
 
-    
+    protected $permissionRepository;
     protected $userCatalogueRepository;
     protected $userCatalogueService;
 
     public function __construct(
         UserCatalogueRepository  $userCatalogueRepository,
-        UserCatalogueService $userCatalogueService
+        UserCatalogueService $userCatalogueService,
+
+        PermissionRepository $permissionRepository
     ) {
         $this->userCatalogueService = $userCatalogueService;
         $this->userCatalogueRepository = $userCatalogueRepository;
+        $this->permissionRepository = $permissionRepository;
     }
 
     public function index(Request $request)
@@ -94,6 +98,24 @@ class UserCatalogueController extends Controller
         return redirect()->route('user.catalogue.index')->with('error', 'Xóa bản ghi không thành công. Hãy thử lại');
     }
 
+    public function permission(){
+        $userCatalogues = $this->userCatalogueRepository->all(['permissions']);
+        $permissions = $this->permissionRepository->all();
+        $config['seo'] = __('messages.userCatalogue');
+        $config['method'] = 'permission';
+        return view('backend.user.catalogue.permission', compact(
+            'config',
+            'permissions',
+            'userCatalogues',
+        ));
+    }
+
+    public function updatePermission(Request $request){
+       if($this->userCatalogueService->setPermission($request)){
+        return redirect()->route('user.catalogue.index')->with('success', 'Cập nhật quyền thành công');
+       }
+       return redirect()->route('user.catalogue.index')->with('error', 'Có vấn đề xảy ra. Hãy thử lại');
+    }
 
     private function config()
     {

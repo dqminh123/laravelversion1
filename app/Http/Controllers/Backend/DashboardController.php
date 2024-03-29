@@ -14,4 +14,8 @@ class DashBoardController extends Controller
     public function index(){
         return view('backend.dashboard.home.index');
     }
+
+    public function error403(){
+        return view('backend.dashboard.home.error403');
+    }
 }

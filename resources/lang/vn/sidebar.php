@@ -4,7 +4,7 @@ return [
         [
             'title' => 'Ql Nhóm Thành Viên',
             'icon' => 'fa fa-user',
-            'name' => 'User',
+            'name' => ['User','Permission'],
             'subModule' => [
                 [
                     'title' => 'Ql Nhóm Thành Viên',
@@ -13,13 +13,17 @@ return [
                 [
                     'title' => 'Ql Thành Viên',
                     'route' => 'user.index',
-                ]
+                ],
+                [
+                    'title' => 'Ql Quyền',
+                    'route' => 'permission.index',
+                ],
             ]
         ],
         [
             'title' => 'Ql Bài Viết',
             'icon' => 'fa fa-file',
-            'name' => 'Post',
+            'name' => ['Post'],
             'subModule' => [
                 [
                     'title' => 'Ql Nhóm Bài Viết',
@@ -35,7 +39,7 @@ return [
         [
             'title' => 'Cấu Hình Chung',
             'icon' => 'fa fa-file',
-            'name' => 'Language',
+            'name' => ['Language'],
             'subModule' => [
                 [
                     'title' => 'Ql Ngôn Ngữ',

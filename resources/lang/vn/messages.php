@@ -61,8 +61,8 @@ return [
         'delete' => [
             'title' => 'Xóa Nhóm Thành Viên',
         ],
-        'table' => [
-            'title' => 'Tên Nhóm Thành Viên'
+        'permission' => [
+            'title' => 'Cập Nhật Quyền'
         ],
     ],
     'user' => [
@@ -84,6 +84,27 @@ return [
         ],
         'table' => [
             'title' => 'Tên Thành Viên'
+        ],
+    ],
+    'permission' => [
+        'index' => [
+            'title' => 'Quản Lý Quyền',
+            'table' => 'Danh Sách Quyền',
+            
+        ],
+        'create' => [
+            'title' => 'Thêm Mới Quyền',
+            
+        ],
+        'edit' => [
+            'title' => 'Cập Nhật Quyền',
+            
+        ],
+        'delete' => [
+            'title' => 'Xóa Quyền',
+        ],
+        'table' => [
+            'title' => 'Tên Quyền'
         ],
     ],
 
@@ -115,7 +136,7 @@ return [
     'tableActive' => 'Thao Tác',
     'deleteButton' => 'Xóa Dữ Liệu',
     'tableHeading' => 'Thông tin chung',
-    'submitButton' => 'Lưu',
+    'submitButton' => 'Lưu Lại',
     'publish' => [
         '0' => 'Chọn Tình Trạng',
         '1' => 'Xuất Bản',
@@ -133,6 +154,7 @@ return [
     'namelg' => 'Tên Ngôn Ngữ',
     'canonicalLanguage' => 'Canonical',
     'delg' => 'Mô tả',
+
     //userCatalogue
     'nameusc' => 'Tên Nhóm Thành Viên',
     'deusc' => 'Ghi Chú',
@@ -149,5 +171,8 @@ return [
     'pv' => 'Thành Phố',
     'dt' => 'Quận/Huyện',
     'w' => 'Phường/Xã',
-
+    //permission
+    'dep' => 'Nhập thông tin chung của quyền',
+    'note' => 'Lưu ý: Những trường đánh dấu',
+    'note_rq' => 'là bắt buộc',
 ];

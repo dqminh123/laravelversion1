@@ -11,6 +11,7 @@ use App\HTTP\Requests\StorePostRequest;
 use App\HTTP\Requests\UpdatePostRequest;
 use App\HTTP\Requests\DeletePostRequest;
 use App\Classes\Nestedsetbie;
+use Illuminate\Support\Facades\Gate;
 
 
 
@@ -39,7 +40,10 @@ class PostController extends Controller
     }
 
     public function index(Request $request)
-    {
+    {   
+        if(! Gate::allows('modules','post.index')){
+            return redirect()->route('home.error403');
+        }
         $model = [
             'model' => 'Post'
         ];
@@ -54,6 +58,9 @@ class PostController extends Controller
 
     public function create(Request $request)
     {
+        if(! Gate::allows('modules','post.create')){
+            return redirect()->route('home.error403');
+        }
         $config['method'] = 'create';
         $config['seo'] = config('apps.post');
         $dropdown = $this->nestedset->Dropdown();
@@ -74,6 +81,9 @@ class PostController extends Controller
 
     public function edit($id)
     {
+        if(! Gate::allows('modules','post.update')){
+            return redirect()->route('home.error403');
+        }
         $post = $this->postRepository->getPostById(
             $id,
             $this->language
@@ -100,6 +110,9 @@ class PostController extends Controller
 
     public function delete($id)
     {
+        if(! Gate::allows('modules','post.destroy')){
+            return redirect()->route('home.error403');
+        }
         $post = $this->postRepository->getPostById(
             $id,
             $this->language

@@ -13,6 +13,9 @@
     vertical-align: middle;
 }
 
+.form-ctl{
+    height:31px;
+}
 .uk-flex-middle{
     -ms-flex-align: center;
     -webkit-align-items: center;
@@ -255,6 +258,15 @@ a{
 .text-left{
     margin-left: 0px;
     
+}
+.panel-title{
+    font-size:20px;
+    margin-bottom:15px;
+    font-weight:700;
+    color:#1a1a1a;
+}
+.panel-description{
+    font-size:15px;
 }
 
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\DashBoardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\LanguageController;
 use App\Http\Controllers\Backend\UserCatalogueController;
+use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\PostCatalogueController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Ajax\LocationController;
@@ -34,6 +35,7 @@ Route::get('/', function () {
 Route::group(['prefix => backend', 'middleware' => ['admin', 'locale']], function () {
     // Dashboard
     Route::get('/dashboard', [DashBoardController::class, 'index'])->name('home.index');
+    Route::get('/error403', [DashBoardController::class, 'error403'])->name('home.error403');
     //user
     Route::get('/user/index', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
@@ -51,7 +53,17 @@ Route::group(['prefix => backend', 'middleware' => ['admin', 'locale']], functio
     Route::post('/user/catalogue/{id}/update', [UserCatalogueController::class, 'update'])->where(['id'=> '[0-9]+'])->name('user.catalogue.update');
     Route::get('/user/catalogue/{id}/delete', [UserCatalogueController::class, 'delete'])->where(['id'=> '[0-9]+'])->name('user.catalogue.delete');
     Route::delete('/user/catalogue/{id}/destroy', [UserCatalogueController::class, 'destroy'])->where(['id'=> '[0-9]+'])->name('user.catalogue.destroy');
-    
+    Route::get('/user/catalogue/permission', [UserCatalogueController::class, 'permission'])->name('user.catalogue.permission');
+    Route::post('/user/catalogue/updatePermission', [UserCatalogueController::class, 'updatePermission'])->name('user.catalogue.updatePermission');
+    //permissions
+    Route::get('/permission/index', [PermissionController::class, 'index'])->name('permission.index');
+    Route::get('/permission/create', [PermissionController::class, 'create'])->name('permission.create');
+    Route::post('/permission/store', [PermissionController::class, 'store'])->name('permission.store');
+    Route::get('/permission/{id}/edit', [PermissionController::class, 'edit'])->where(['id'=> '[0-9]+'])->name('permission.edit');
+    Route::post('/permission/{id}/update', [PermissionController::class, 'update'])->where(['id'=> '[0-9]+'])->name('permission.update');
+    Route::get('/permission/{id}/delete', [PermissionController::class, 'delete'])->where(['id'=> '[0-9]+'])->name('permission.delete');
+    Route::delete('/permission/{id}/destroy', [PermissionController::class, 'destroy'])->where(['id'=> '[0-9]+'])->name('permission.destroy');
+
     //languages
     Route::get('/language/index', [LanguageController::class, 'index'])->name('language.index');
     Route::get('/language/create', [LanguageController::class, 'create'])->name('language.create');

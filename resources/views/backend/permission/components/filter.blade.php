@@ -1,4 +1,4 @@
-<form action="{{route('user.catalogue.index')}}">
+<form action="{{route('permission.index')}}">
     <div class="filter-wrapper">
         <div class="uk-flex uk-flex-middle uk-flex-space-between">
             <div class="action">
@@ -7,21 +7,21 @@
                         $publish = request('publish') ?: old('publish');
                        
                     @endphp
-                    <a href="{{ route('user.catalogue.create') }}" class="btn btn-success"><i class="link-icon" data-feather="edit"></i>
-                        {{ __('messages.userCatalogue.create.title') }}</a>
+                    <a href="{{ route('permission.create') }}" class="btn btn-success"><i class="link-icon" data-feather="edit"></i>
+                        {{ __('messages.permission.create.title') }}</a>
                     <a href="" class="dropdown-toggle btn btn-warning toolbox" data-bs-toggle='dropdown'>
-                        {{__('messages.toolbox')}} <i class="fa fa-wrench"></i>
+                        {{ __('messages.toolbox') }} <i class="fa fa-wrench"></i>
                     </a>
     
                     <ul class="dropdown-menu dropdown-user">
                         <li><a class="changeStatusAll xxx" data-value="1" data-field="publish"
                                 data-model="{{ $model['model'] }}">
-                                {{__('messages.pb')}}
+                                {{ __('messages.pb') }}
                             </a>
                         </li>
                         <li><a class="changeStatusAll xxx" data-value="0" data-field="publish"
                                 data-model="{{ $model['model'] }}">
-                                {{__('messages.upb')}}
+                                {{ __('messages.upb') }}
                             </a>
                         </li>
                     </ul>
@@ -34,14 +34,10 @@
                     <div class="uk-search uk-flex uk-flex-middle mr10">
                         <div class="input-group">
                            <span class="input-group-btn">
-                               <button type="submit" name="search" value="search" class="btn btn-primary btn-sm"><i class="link-icon" data-feather="search"></i> {{__('messages.search')}}
+                               <button type="submit" name="search" value="search" class="btn btn-primary btn-sm"><i class="link-icon" data-feather="search"></i>{{__('messages.search')}}
                                 </button>
                            </span>
                         </div>
-                    </div>
-                    <div class="uk-flex uk-flex-middle" style="margin-left: 10px">
-                        <a href="{{ route('user.catalogue.permission') }}" class="btn btn-dark"><i class="link-icon" data-feather="key"></i>
-                           Phân Quyền</a>
                     </div>
                 </div>
             </div>

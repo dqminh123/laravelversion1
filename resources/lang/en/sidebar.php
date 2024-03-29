@@ -4,7 +4,7 @@ return [
         [
             'title' => 'User',
             'icon' => 'fa fa-user',
-            'name' => 'User',
+            'name' => ['User','Permission'],
             'subModule' => [
                 [
                     'title' => 'User Group ',
@@ -13,13 +13,17 @@ return [
                 [
                     'title' => 'User',
                     'route' => 'user.index',
-                ]
+                ],
+                [
+                    'title' => 'Permission',
+                    'route' => 'permission.index',
+                ],
             ]
         ],
         [
             'title' => 'Article',
             'icon' => 'fa fa-file',
-            'name' => 'Article',
+            'name' => ['Article'],
             'subModule' => [
                 [
                     'title' => 'Article Group',
@@ -35,7 +39,7 @@ return [
         [
             'title' => 'General',
             'icon' => 'fa fa-file',
-            'name' => 'Language',
+            'name' => ['Language'],
             'subModule' => [
                 [
                     'title' => 'Language',
