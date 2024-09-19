@@ -14,7 +14,7 @@
         <ul class="navbar-nav">
             <li class="nav-item dropdown">
                <div class="uk-flex uk-flex-middle">
-                @foreach($language as $key => $val )
+                @foreach($lang as $key => $val )
                     <a href="{{route('language.switch', $val->id)}}" class="image img-cover language-item {{ ($val->current == 1) ? 'active' : '' }}"><img src="{{$val->image}}" alt="" style="width: 45px;height:25px;margin-right:10px;margin-top:10px;margin-left:10px" ></a>
                 @endforeach
                </div>

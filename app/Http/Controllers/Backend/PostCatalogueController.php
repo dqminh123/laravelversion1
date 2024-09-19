@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\PostCatalogue;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\PostCatalogueServiceInterface as PostCatalogueService;
 use App\Repositories\Interfaces\PostCatalogueRepositoryInterface as PostCatalogueRepository;
@@ -11,7 +12,7 @@ use App\HTTP\Requests\StorePostCatalogueRequest;
 use App\HTTP\Requests\UpdatePostCatalogueRequest;
 use App\HTTP\Requests\DeletePostCatalogueRequest;
 use App\Classes\Nestedsetbie;
-
+use Illuminate\Support\Facades\Gate;
 
 
 class PostCatalogueController extends Controller
@@ -29,40 +30,60 @@ class PostCatalogueController extends Controller
     ) {
         $this->postCatalogueService = $postCatalogueService;
         $this->postCatalogueRepository = $postCatalogueRepository;
+
+        $this->middleware(function($request, $next){
+            $locale = app()->getLocale();
+            $language = Language::where('canonical', $locale)->first();
+            $this->language = $language->id;
+            $this->initialize();
+            return $next($request);
+        });
+        
+    }
+    private function initialize(){
         $this->nestedset = new Nestedsetbie([
             'table' => 'post_catalogues',
             'foreignkey' => 'post_catalogue_id',
-            'language_id' => 2
+            'language_id' =>  $this->language,
         ]);
-        $this->language = $this->currentLanguage();
-    }
+    } 
 
     public function index(Request $request)
     {
+        
+        if(! Gate::allows('modules','post.catalogue.index')){
+            return redirect()->route('home.error403');
+        }
+        $tem = 'backend.post.catalogue.index';
         $model = [
             'model' => 'PostCatalogue'
         ];
         $config = $this->config();
         $config['seo'] = __('messages.postCatalogue');
-        $postCatalogues = $this->postCatalogueService->paginate($request);
-        return view('backend.post.catalogue.index', compact('postCatalogues', 'config','model'));
+        $postCatalogues = $this->postCatalogueService->paginate($request,$this->language);
+        return view('backend.dashboard.layout', compact('postCatalogues', 'config','model','tem'));
     }
 
     public function create(Request $request)
     {
+        if(! Gate::allows('modules','post.catalogue.create')){
+            return redirect()->route('home.error403');
+        }
+        $tem = 'backend.post.catalogue.store';
         $config['method'] = 'create';
         $config['seo'] = __('messages.postCatalogue');
         $dropdown = $this->nestedset->Dropdown();
-        return view('backend.post.catalogue.store', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'dropdown',
+            'tem'
            
         ));
     }
 
     public function store(StorePostCatalogueRequest $request)
     {
-        if ($this->postCatalogueService->create($request)) {
+        if ($this->postCatalogueService->create($request, $this->language)) {
             return redirect()->route('post.catalogue.index')->with('success', 'Thêm mới bản ghi thành công');
         }
         return redirect()->route('post.catalogue.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
@@ -70,6 +91,10 @@ class PostCatalogueController extends Controller
 
     public function edit($id)
     {
+        if(! Gate::allows('modules','post.catalogue.update')){
+            return redirect()->route('home.error403');
+        }
+        $tem = 'backend.post.catalogue.store';
         $postCatalogue = $this->postCatalogueRepository->getPostCatalogueById(
             $id,
             $this->language
@@ -78,17 +103,18 @@ class PostCatalogueController extends Controller
          $album = json_decode($postCatalogue->album);
         $config['method'] = 'edit';
         $config['seo'] = __('messages.postCatalogue');
-        return view('backend.post.catalogue.store', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'postCatalogue',
             'dropdown',
-            'album'
+            'album',
+            'tem'
         ));
     }
 
     public function update($id, UpdatePostCatalogueRequest $request)
     {
-        if ($this->postCatalogueService->update($id, $request)) {
+        if ($this->postCatalogueService->update($id, $request, $this->language)) {
             return redirect()->route('post.catalogue.index')->with('success', 'Cập nhật bản ghi thành công');
         }
         return redirect()->route('post.catalogue.index')->with('error', 'Cập nhật bản ghi không thành công. Hãy thử lại');
@@ -96,15 +122,20 @@ class PostCatalogueController extends Controller
 
     public function delete($id)
     {
+        if(! Gate::allows('modules','post.catalogue.destroy')){
+            return redirect()->route('home.error403');
+        }
+        $tem = 'backend.post.catalogue.delete';
         $postCatalogue = $this->postCatalogueRepository->getPostCatalogueById(
             $id,
             $this->language
         );
         $config['seo'] = __('messages.postCatalogue');
         $config['method'] = 'delete';
-        return view('backend.post.catalogue.delete', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'postCatalogue',
+            'tem'
         ));
     }
 

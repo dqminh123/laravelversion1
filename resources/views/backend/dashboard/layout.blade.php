@@ -74,7 +74,7 @@ License: For each use you must have a valid license purchased only from above li
 			@include('backend.dashboard.component.header')
 			<!-- partial -->
 
-		@yield('backend')
+		@include($tem)
 
 			<!-- partial:partials/_footer.html -->
 			@include('backend.dashboard.component.footer')

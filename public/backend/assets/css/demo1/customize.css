@@ -110,7 +110,7 @@
     border-right: 0;
 }
 
-input[name=canonical]{
+.seo-canonical{
     color: navy;
     font-weight: 600;
 }
@@ -294,5 +294,11 @@ a{
 }
 .language-item.active{ 
     background: #2962ff;
+}
+
+.language-flag{
+    width: 40px !important;
+    height: 20px !important;
+    display: inline-block !important;
 }
 

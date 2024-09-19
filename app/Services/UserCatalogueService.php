@@ -32,8 +32,8 @@ class UserCatalogueService implements UserCatalogueServiceInterface
             $this->paginateSelect(), 
             $condition, 
             $perPage,
-            ['id','DESC'],
             ['path' => 'user/catalogue/index'],
+            ['id', 'desc'],
             [],
             ['users']
         );

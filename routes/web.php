@@ -73,6 +73,8 @@ Route::group(['prefix => backend', 'middleware' => ['admin', 'locale']], functio
     Route::get('/language/{id}/delete', [LanguageController::class, 'delete'])->where(['id'=> '[0-9]+'])->name('language.delete');
     Route::delete('/language/{id}/destroy', [LanguageController::class, 'destroy'])->where(['id'=> '[0-9]+'])->name('language.destroy');
     Route::get('/language/{id}/switch', [LanguageController::class, 'switchBackendLanguage'])->where(['id'=> '[0-9]+'])->name('language.switch');
+    Route::get('/language/{id}/{languageId}/{model}/translate', [LanguageController::class, 'translate'])->where(['id'=> '[0-9]+', 'languageId' => '[0-9]+'])->name('language.translate');
+    Route::post('/language/storeTranslate', [LanguageController::class, 'storeTranslate'])->name('language.storeTranslate');
 
     //postcatalogue
     Route::get('/post/catalogue/index', [PostCatalogueController::class, 'index'])->name('post.catalogue.index');

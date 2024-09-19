@@ -42,6 +42,9 @@ return [
         'table' => [
             'title' => 'Tên Ngôn Ngữ'
         ],
+        'translate' => [
+            'title' => 'Tạo Bản Dịch'
+        ],
     ],
 
     'userCatalogue' => [
@@ -172,7 +175,7 @@ return [
     'dt' => 'Quận/Huyện',
     'w' => 'Phường/Xã',
     //permission
-    'dep' => 'Nhập thông tin chung của quyền',
+    'dep' => 'Nhập thông tin chung',
     'note' => 'Lưu ý: Những trường đánh dấu',
     'note_rq' => 'là bắt buộc',
 ];

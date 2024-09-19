@@ -10,7 +10,7 @@ use App\Services\Interfaces\UserServiceInterface as UserService;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 use App\HTTP\Requests\StoreUserRequest;
 use App\HTTP\Requests\UpdateUserRequest;
-
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -31,25 +31,33 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        if(! Gate::allows('modules','user.index')){
+            return redirect()->route('home.error403');
+        }
         $model = [
             'model' => 'User'
         ];
+        $tem = 'backend.user.user.index';
         $config = $this->configData();
         $config['seo'] = __('messages.user');
         $users = $this->userService->paginate($request);
-        return view('backend.user.user.index', compact('users', 'config','model'));
+        return view('backend.dashboard.layout', compact('users', 'config','model','tem'));
     }
 
     public function create(Request $request)
     {
-
+        if(! Gate::allows('modules','user.create')){
+            return redirect()->route('home.error403');
+        }
+        $tem = 'backend.user.user.store';
         $provinces = $this->provinceRepository->all();
         $config = $this->configData();
         $config['method'] = 'create';
         $config['seo'] = __('messages.user');
-        return view('backend.user.user.store', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'provinces',
+            'tem'
             
         ));
     }
@@ -64,15 +72,20 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        if(! Gate::allows('modules','user.update')){
+            return redirect()->route('home.error403');
+        }
         $user = $this->userRepository->findById($id);
+        $tem = 'backend.user.user.store';
         $config = $this->configData();
         $provinces = $this->provinceRepository->all();
         $config['method'] = 'edit';
         $config['seo'] = __('messages.user');
-        return view('backend.user.user.store', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'provinces',
             'user',
+            'tem'
         ));
     }
 
@@ -86,12 +99,17 @@ class UserController extends Controller
 
     public function delete($id)
     {
+        if(! Gate::allows('modules','user.destroy')){
+            return redirect()->route('home.error403');
+        }
         $user = $this->userRepository->findById($id);
+        $tem = 'backend.user.user.delete';
         $config['seo'] = __('messages.user');
         $config['method'] = 'delete';
-        return view('backend.user.user.delete', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'user',
+            'tem'
         ));
     }
 

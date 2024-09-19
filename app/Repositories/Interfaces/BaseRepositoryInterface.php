@@ -15,8 +15,8 @@ interface BaseRepositoryInterface
         array $column = ['*'], 
         array $condition = [],
         int $perPage = 1,
-        array $orderBy = ['id','DESC'],
         array $extend = [],
+        array $orderBy = ['id', 'DESC'],
         array $join = [],
         array $relations = [],
         

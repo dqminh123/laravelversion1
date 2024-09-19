@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\PostServiceInterface as PostService;
 use App\Repositories\Interfaces\PostRepositoryInterface as PostRepository;
@@ -29,15 +30,25 @@ class PostController extends Controller
         PostRepository  $postRepository,
         PostService $postService,
     ) {
+        $this->middleware(function($request, $next){
+            $locale = app()->getLocale(); // vn en cn
+            $language = Language::where('canonical', $locale)->first();
+            $this->language = $language->id;
+            $this->initialize();
+            return $next($request);
+        });
         $this->postService = $postService;
         $this->postRepository = $postRepository;
+        $this->initialize();
+    }
+    // initialize lay danh muc cha con
+    private function initialize(){
         $this->nestedset = new Nestedsetbie([
             'table' => 'post_catalogues',
             'foreignkey' => 'post_catalogue_id',
-            'language_id' => 2
+            'language_id' =>  $this->language,
         ]);
-        $this->language = $this->currentLanguage();
-    }
+    } 
 
     public function index(Request $request)
     {   
@@ -47,13 +58,14 @@ class PostController extends Controller
         $model = [
             'model' => 'Post'
         ];
+        $tem = 'backend.post.post.index';
         $config = $this->config();
         $config['seo'] = config('apps.post');
         $dropdown = $this->nestedset->Dropdown();
-        $posts = $this->postService->paginate($request);
+        $posts = $this->postService->paginate($request,$this->language);
        
         
-        return view('backend.post.post.index', compact('posts', 'config','model','dropdown'));
+        return view('backend.dashboard.layout', compact('posts', 'config','model','dropdown','tem'));
     }
 
     public function create(Request $request)
@@ -63,17 +75,18 @@ class PostController extends Controller
         }
         $config['method'] = 'create';
         $config['seo'] = config('apps.post');
+        $tem = 'backend.post.post.store';
         $dropdown = $this->nestedset->Dropdown();
-        return view('backend.post.post.store', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'dropdown',
-           
+            'tem'
         ));
     }
 
     public function store(StorePostRequest $request)
     {
-        if ($this->postService->create($request)) {
+        if ($this->postService->create($request,$this->language)) {
             return redirect()->route('post.index')->with('success', 'Thêm mới bản ghi thành công');
         }
         return redirect()->route('post.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
@@ -89,20 +102,22 @@ class PostController extends Controller
             $this->language
         );
         $dropdown = $this->nestedset->Dropdown();
+        $tem = 'backend.post.post.store';
         $album = json_decode($post->album);
         $config['method'] = 'edit';
         $config['seo'] = config('apps.post');
-        return view('backend.post.post.store', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'post',
             'dropdown',
-            'album'
+            'album',
+            'tem'
         ));
     }
 
     public function update($id, UpdatePostRequest $request)
     {
-        if ($this->postService->update($id, $request)) {
+        if ($this->postService->update($id, $request,$this->language)) {
             return redirect()->route('post.index')->with('success', 'Cập nhật bản ghi thành công');
         }
         return redirect()->route('post.index')->with('error', 'Cập nhật bản ghi không thành công. Hãy thử lại');
@@ -118,10 +133,12 @@ class PostController extends Controller
             $this->language
         );
         $config['seo'] = config('apps.post');
+        $tem = 'backend.post.post.delete';
         $config['method'] = 'delete';
-        return view('backend.post.post.delete', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'post',
+            'tem'
         ));
     }
 

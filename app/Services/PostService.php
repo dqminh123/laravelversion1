@@ -19,8 +19,6 @@ class PostService extends BaseService implements PostServiceInterface
 
     protected $postRepository;
     protected $routerRepository;
-    protected $nestedset;
-    protected $language;
 
     public function __construct(
 
@@ -29,19 +27,18 @@ class PostService extends BaseService implements PostServiceInterface
 
     ) {
         $this->postRepository = $postRepository;
-        $this->language = $this->currentLanguage();
         $this->routerRepository = $routerRepository;
         $this->controllerName = 'PostController';
     }
     //phân trang
-    public function paginate($request)
+    public function paginate($request,$languageId)
     {
         $perPage = $request->integer('perpage');
         $condition = [
             'keyword' => ($request->input('keyword')) ? addslashes($request->input('keyword')) : '',
             'publish' => $request->integer('publish'),
             'where' => [
-                ['tb2.language_id', '=', $this->language],
+                ['tb2.language_id', '=', $languageId],
             ],
         ];
         $paginationConfig = [
@@ -49,9 +46,16 @@ class PostService extends BaseService implements PostServiceInterface
             'groupBy' => $this->paginateSelect()
         ];
         $orderBy = ['posts.id', 'DESC'];
-        $relations = ['post_catalogues'];
-        $rawQuery = $this->whereRaw($request, $this->language);
-        // dd($rawQuery);
+        $relations = [
+            [
+                'post_catalogues' => function($query) use ($languageId){
+                    $query->with('languages', function($query) use ($languageId){
+                        $query->where('language_id', $languageId);
+                    });
+                }
+            ]
+        ];
+        $rawQuery = $this->whereRaw($request, $languageId);
         $joins = [
             ['post_language as tb2', 'tb2.post_id', '=', 'posts.id'],
             ['post_catalogue_post as tb3', 'posts.id', '=', 'tb3.post_id'],
@@ -61,24 +65,25 @@ class PostService extends BaseService implements PostServiceInterface
             $this->paginateSelect(), 
             $condition, 
             $perPage,
-            $orderBy,
-            $paginationConfig,  
+            $paginationConfig, 
+            $orderBy, 
             $joins,  
             $relations,
             $rawQuery
         ); 
+
         return $posts;
     }
     //thêm
-    public function create($request)
+    public function create($request,$languageId)
     {
         DB::beginTransaction();
         try {
             $post = $this->createPost($request);
             if ($post->id > 0) {
-                $this->updateLanguageForPost($post,$request);
+                $this->updateLanguageForPost($post,$request,$languageId);
                 $this->updateCatalogueForPost($post,$request);
-                $this->createRouter($post, $request, $this->controllerName);
+                $this->createRouter($post, $request, $this->controllerName,$languageId);
             }
             DB::commit();
             return true;
@@ -90,15 +95,15 @@ class PostService extends BaseService implements PostServiceInterface
         }
     }
     // cập nhật
-    public function update($id, $request)
+    public function update($id, $request, $languageId)
     {
         DB::beginTransaction();
         try {
             $post = $this->postRepository->findById($id);
             if ($this->uploadPost($post,$request)) {
-                $this->updateLanguageForPost($post,$request);
+                $this->updateLanguageForPost($post,$request,$languageId);
                 $this->updateCatalogueForPost($post,$request);
-                $this->updateRouter($post ,$request, $this->controllerName);
+                $this->updateRouter($post ,$request, $this->controllerName, $languageId);
             }
             DB::commit();
             return true;
@@ -180,16 +185,16 @@ class PostService extends BaseService implements PostServiceInterface
     // định dạng album
    
     // cập nhật post_language
-    private function updateLanguageForPost($post,$request){
+    private function updateLanguageForPost($post,$request,$languageId){
         $payload = $request->only($this->payloadLanguage());
-        $payload = $this->formatLanguagePayload($payload,$post->id);
-        $post->languages()->detach([$this->language, $post->id]);  //detach dùng để thêm bản ghi vào bảng trung gian
+        $payload = $this->formatLanguagePayload($payload,$post->id,$languageId);
+        $post->languages()->detach([$languageId, $post->id]);  //detach dùng để thêm bản ghi vào bảng trung gian
         return $this->postRepository->createPivot($post, $payload,'languages');
     }
     // định dạng cập nhật bài viết
-    private function formatLanguagePayload($payload,$postId){
+    private function formatLanguagePayload($payload,$postId,$languageId){
         $payload['canonical'] = Str::slug($payload['canonical']);
-        $payload['language_id'] = $this->currentLanguage();
+        $payload['language_id'] = $languageId;
         $payload['post_id'] = $postId;
         return $payload;
     }
@@ -237,7 +242,7 @@ class PostService extends BaseService implements PostServiceInterface
     //SELECT id FROM post_catalogues WHERE Lft >= ( SELECT lft FROM post_catalogues WHERE id = 10)
     //AND Lft <= ( SELECT Lft FROM post_catalogues WHERE id = 10)
         // whereRaw: truy vấn thuần thông thường
-    private function whereRaw($request){
+    private function whereRaw($request,$languageId){
         $rawCondition = [];
         if($request->integer('post_catalogue_id') > 0){
             $rawCondition['whereRaw'] =  [
@@ -245,9 +250,10 @@ class PostService extends BaseService implements PostServiceInterface
                     'tb3.post_catalogue_id IN (
                         SELECT id
                         FROM post_catalogues
+                        JOIN post_catalogue_language ON post_catalogues.id = post_catalogue_language.post_catalogue_id
                         WHERE lft >= (SELECT lft FROM post_catalogues as pc WHERE pc.id = ?)
                         AND rgt <= (SELECT rgt FROM post_catalogues as pc WHERE pc.id = ?)
-                       
+                        AND post_catalogue_language.language_id = '.$languageId.'
                     )',
                     [$request->integer('post_catalogue_id'), $request->integer('post_catalogue_id')]
                 ]

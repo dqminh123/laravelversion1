@@ -31,8 +31,8 @@ class PermissionService implements PermissionServiceInterface
             $this->paginateSelect(), 
             $condition, 
             $perPage,
+            ['path' => 'permission/index'],
             ['id','DESC'],
-            ['path' => 'permission/index'], 
         );
         return $languages;
     }

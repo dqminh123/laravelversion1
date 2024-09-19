@@ -22,17 +22,18 @@ class LanguageService implements LanguageServiceInterface
         $this->languageRepository = $languageRepository;
     }
 
-    public function paginate($request){
+    public function paginate($request)
+    {
 
         $condition['keyword'] = addslashes($request->input('keyword'));
         $condition['publish'] = $request->integer('publish');
         $perPage = $request->integer('perpage');
         $languages = $this->languageRepository->pagination(
-            $this->paginateSelect(), 
-            $condition, 
+            $this->paginateSelect(),
+            $condition,
             $perPage,
-            ['id','DESC'],
-            ['path' => 'language/index'], 
+            ['path' => 'language/index'],
+            ['id', 'DESC'],
         );
         return $languages;
     }
@@ -117,16 +118,17 @@ class LanguageService implements LanguageServiceInterface
         }
     }
 
-    public function switch($id){
+    public function switch($id)
+    {
         DB::beginTransaction();
         try {
-           $language = $this->languageRepository->update($id, ['current' => 1]);
-            $payload = ['current' =>0];
+            $language = $this->languageRepository->update($id, ['current' => 1]);
+            $payload = ['current' => 0];
             $where = [
-                ['id', '!=', $id], 
+                ['id', '!=', $id],
             ];
-            $this->languageRepository->updateByWhere( $where ,$payload );
-               
+            $this->languageRepository->updateByWhere($where, $payload);
+
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -135,19 +137,60 @@ class LanguageService implements LanguageServiceInterface
             die();
             return false;
         }
-       
     }
 
-    private function paginateSelect(){
+    public function saveTranslate($option, $request)
+    {
+        DB::beginTransaction();
+        try {
+            $payload = [
+                'name' => $request->input('translate_name'),
+                'description' => $request->input('translate_description'),
+                'content' => $request->input('translate_content'),
+                'meta_title' => $request->input('translate_meta_title'),
+                'meta_keyword' => $request->input('translate_meta_keyword'),
+                'meta_description' => $request->input('translate_meta_description'),
+                'canonical' => $request->input('translate_canonical'),
+                $this->converModelToField($option['model']) => $option['id'],
+                    'language_id' => $option['languageId'],
+            ];
+
+            $repositoryNamespace = '\App\Repositories\\' . ucfirst($option['model']) . 'Repository';
+            if (class_exists($repositoryNamespace)) {
+                $repositoryInstance = app($repositoryNamespace);
+            }
+            //tim id cua model 
+            $model = $repositoryInstance->findById($option['id']);
+            //detach du lieu trc khi them moi
+            $model->languages()->detach([$option['languageId'], $model->id]);
+            $repositoryInstance->createPivot($model, $payload, 'languages');
+    
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
+    // chuyển model thành viết thường
+    private function converModelToField($model)
+    {
+        $temp = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $model));
+        return $temp . '_id';
+    }
+
+    private function paginateSelect()
+    {
         return [
-            'id', 
-            'name', 
+            'id',
+            'name',
             'canonical',
             'publish',
             'image',
             'description'
         ];
     }
-
-
 }

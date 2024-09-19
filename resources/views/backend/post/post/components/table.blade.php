@@ -3,6 +3,7 @@
         <tr>
             <th><input type="checkbox" value="" id="checkAll" class="input-checkbox"></th>
             <th>Tiêu Đề</th>
+            @include('backend.dashboard.component.languageTh')
             <th style="width: 60px" class="text-center">Vị Trí</th>
             <th class="text-center">Tình trạng</th>
             <th class="text-center">Thao Tác</th>
@@ -26,15 +27,22 @@
                                 </div>
                                 <div class="catalogue">
                                     <span class="text-danger">Nhóm hiển thị: </span>
+                                    
                                     @foreach ($post->post_catalogues as $value)
-                                        @foreach ($value->post_catalogue_language as $cat)
-                                            <a href="{{route('post.index',['post_catalogue_id'=>$value->id])}}" title="">{{ $cat->name }}</a>
-                                        @endforeach
+                                    @if(!empty($value->languages))
+                                        @php
+                                            $catName = $value->languages->first()->pivot->name ?? '';
+                                            $catRoute = route('post.index', ['post_catalogue_id'=> $value->id])
+                                        @endphp
+                                        <a href="{{ $catRoute }}" title="">{{ $catName }}</a>
+                                    @endif
                                     @endforeach
+                               
                                 </div>
                             </div>
                         </div>
                     </td>
+                    @include('backend.dashboard.component.languageTd', ['model' => $post, 'modeling' => 'Post'])
                     <td class="text-center">
                         <input type="text" name="order" value="{{ $post->order }}"
                             class="form-control sort-order text-center" readonly data-id="{{ $post->id }}"

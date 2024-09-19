@@ -12,7 +12,7 @@ use App\Repositories\Interfaces\PermissionRepositoryInterface as PermissionRepos
 use App\HTTP\Requests\StoreUserRequest;
 use App\HTTP\Requests\StoreUserCatalogueRequest;
 use App\HTTP\Requests\UpdateUserRequest;
-
+use Illuminate\Support\Facades\Gate;
 
 class UserCatalogueController extends Controller
 {
@@ -34,22 +34,30 @@ class UserCatalogueController extends Controller
 
     public function index(Request $request)
     {
+        if(! Gate::allows('modules','user.catalogue.index')){
+            return redirect()->route('home.error403');
+        }
         $model = [
             'model' => 'UserCatalogue'
         ];
+        $tem = 'backend.user.catalogue.index';
         $config = $this->config();
         $config['seo'] = __('messages.userCatalogue');
         $userCatalogues = $this->userCatalogueService->paginate($request);
-        return view('backend.user.catalogue.index', compact('userCatalogues', 'config','model'));
+        return view('backend.dashboard.layout', compact('userCatalogues', 'config','model','tem'));
     }
 
     public function create(Request $request)
     {
-       
+        if(! Gate::allows('modules','user.catalogue.create')){
+            return redirect()->route('home.error403');
+        }
+        $tem = 'backend.user.catalogue.store';
         $config['method'] = 'create';
         $config['seo'] = __('messages.userCatalogue');
-        return view('backend.user.catalogue.store', compact(
-            'config'
+        return view('backend.dashboard.layout', compact(
+            'config',
+            'tem'
         ));
     }
 
@@ -63,12 +71,17 @@ class UserCatalogueController extends Controller
 
     public function edit($id)
     {
+        if(! Gate::allows('modules','user.catalogue.update')){
+            return redirect()->route('home.error403');
+        }
         $userCatalogue = $this->userCatalogueRepository->findById($id);
+        $tem = 'backend.user.catalogue.store';
         $config['method'] = 'edit';
         $config['seo'] = __('messages.userCatalogue');
-        return view('backend.user.catalogue.store', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'userCatalogue',
+            'tem'
         ));
     }
 
@@ -82,12 +95,17 @@ class UserCatalogueController extends Controller
 
     public function delete($id)
     {
+        if(! Gate::allows('modules','user.catalogue.destroy')){
+            return redirect()->route('home.error403');
+        }
         $userCatalogue = $this->userCatalogueRepository->findById($id);
+        $tem = 'backend.user.catalogue.delete';
         $config['seo'] = __('messages.userCatalogue');
         $config['method'] = 'delete';
-        return view('backend.user.catalogue.delete', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'userCatalogue',
+            'tem'
         ));
     }
 
@@ -100,13 +118,15 @@ class UserCatalogueController extends Controller
 
     public function permission(){
         $userCatalogues = $this->userCatalogueRepository->all(['permissions']);
+        $tem = 'backend.user.catalogue.permission';
         $permissions = $this->permissionRepository->all();
         $config['seo'] = __('messages.userCatalogue');
         $config['method'] = 'permission';
-        return view('backend.user.catalogue.permission', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'permissions',
             'userCatalogues',
+            'tem'
         ));
     }
 

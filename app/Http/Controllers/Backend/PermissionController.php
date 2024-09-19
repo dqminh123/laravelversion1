@@ -9,7 +9,7 @@ use App\Services\Interfaces\PermissionServiceInterface as PermissionService;
 use App\Repositories\Interfaces\PermissionRepositoryInterface as PermissionRepository;
 use App\HTTP\Requests\StorePermissionRequest;
 use App\HTTP\Requests\UpdatePermissionRequest;
-
+use Illuminate\Support\Facades\Gate;
 
 class PermissionController extends Controller
 {
@@ -29,23 +29,31 @@ class PermissionController extends Controller
 
     public function index(Request $request)
     {
+        if(! Gate::allows('modules','permission.index')){
+            return redirect()->route('home.error403');
+        }
         $model = [
             'model' => 'Permission'
         ];
+        $tem = 'backend.permission.index';
         $config = $this->config();
         $config['seo'] = __('messages.permission');
         $permissions = $this->permissionService->paginate($request);
-        return view('backend.permission.index', compact('permissions', 'config','model'));
+        return view('backend.dashboard.layout', compact('permissions', 'config','model','tem'));
     }
 
     public function create(Request $request)
     {
-        
+        if(! Gate::allows('modules','permission.create')){
+            return redirect()->route('home.error403');
+        }
+        $tem = 'backend.permission.store';
         $config = $this->configData();
         $config['method'] = 'create';
         $config['seo'] = __('messages.permission');
-        return view('backend.permission.store', compact(
-            'config'
+        return view('backend.dashboard.layout', compact(
+            'config',
+            'tem'
         ));
     }
 
@@ -59,13 +67,18 @@ class PermissionController extends Controller
 
     public function edit($id)
     {
+        if(! Gate::allows('modules','permission.update')){
+            return redirect()->route('home.error403');
+        }
         $permission = $this->permissionRepository->findById($id);
         $config = $this->configData();
+        $tem = 'backend.permission.store';
         $config['method'] = 'edit';
         $config['seo'] = __('messages.permission');
-        return view('backend.permission.store', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'permission',
+            'tem'
         ));
     }
 
@@ -79,12 +92,17 @@ class PermissionController extends Controller
 
     public function delete($id)
     {
+        if(! Gate::allows('modules','permission.destroy')){
+            return redirect()->route('home.error403');
+        }
         $permission = $this->permissionRepository->findById($id);
+        $tem = 'backend.permission.delete';
         $config['seo'] = __('messages.permission');
         $config['method'] = 'delete';
-        return view('backend.permission.delete', compact(
+        return view('backend.dashboard.layout', compact(
             'config',
             'permission',
+            'tem'
         ));
     }
 

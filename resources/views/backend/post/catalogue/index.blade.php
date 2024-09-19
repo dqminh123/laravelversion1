@@ -1,5 +1,4 @@
-@extends('backend.dashboard.layout')
-@section('backend')
+
     <div class="page-content">
         @include('backend.dashboard.component.breadcrumb', ['title' => $config['seo']['index']['title']])
         <div class="ibox-tools">
@@ -21,4 +20,4 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
-@endsection
+

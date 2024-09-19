@@ -21,6 +21,90 @@ return [
             'title' => 'Group Name'
         ],
     ],
+    'language' => [
+        'index' => [
+            'title' => 'Language Management',
+            'table' => 'Language List',
+            
+        ],
+        'create' => [
+            'title' => 'Add New Language',
+            
+        ],
+        'edit' => [
+            'title' => 'Language Update',
+            
+        ],
+        'delete' => [
+            'title' => 'Remove Language',
+        ],
+        'table' => [
+            'title' => 'Language Name'
+        ],
+    ],
+    'userCatalogue' => [
+        'index' => [
+            'title' => 'Manage Group Members',
+            'table' => 'Member Group List',
+            
+        ],
+        'create' => [
+            'title' => 'Add New Group Member',
+            
+        ],
+        'edit' => [
+            'title' => 'Update Member Group',
+            
+        ],
+        'delete' => [
+            'title' => 'Delete Group Members',
+        ],
+        'permission' => [
+            'title' => 'Update Permissions'
+        ],
+    ],
+    'user' => [
+        'index' => [
+            'title' => 'Member Management',
+            'table' => 'Member List',
+            
+        ],
+        'create' => [
+            'title' => 'Add New Member',
+            
+        ],
+        'edit' => [
+            'title' => 'Member Update',
+            
+        ],
+        'delete' => [
+            'title' => 'Remove Member',
+        ],
+        'table' => [
+            'title' => 'Member Name'
+        ],
+    ],
+    'permission' => [
+        'index' => [
+            'title' => 'Permissions Management',
+            'table' => 'Permission List',
+            
+        ],
+        'create' => [
+            'title' => 'Add New Permission',
+            
+        ],
+        'edit' => [
+            'title' => 'Update Permissions',
+            
+        ],
+        'delete' => [
+            'title' => 'Remove Permissions',
+        ],
+        'table' => [
+            'title' => 'Permission Name'
+        ],
+    ],
 
     'parent' => 'Select Parent Category',
     'parent_notice'=> 'Select Root if there is no parent category',

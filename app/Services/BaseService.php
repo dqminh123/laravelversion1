@@ -9,12 +9,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Classes\Nestedsetbie;
 use Illuminate\Support\Str;
+use App\Models\Language;
 use App\Repositories\Interfaces\RouterRepositoryInterface as RouterRepository;
 
 class BaseService implements BaseServiceInterface
 {
     protected $routerRepository;
     protected $controllerName;
+    protected $language;
 
     public function __construct(
         RouterRepository $routerRepository
@@ -22,7 +24,9 @@ class BaseService implements BaseServiceInterface
         $this->routerRepository = $routerRepository;
     }
     public function currentLanguage(){
-        return 2;
+        $locale = app()->getLocale();
+        $language = Language::where('canonical', $locale)->first();
+        return $language->id;
     }
 
     public function formatAlbum($request){
@@ -35,22 +39,23 @@ class BaseService implements BaseServiceInterface
         $this->nestedset->Action();
     }
     // dinh dang router
-    public function formatRouterPayload($model,$request,$controllerName){
+    public function formatRouterPayload($model,$request,$controllerName,$languageId){
         $router = [
             'canonical' => Str::slug($request->input('canonical')),
             'module_id' => $model->id,
+            'language_id' => $languageId,
             'controllers' => 'App\Http\Controllers\Frontend\\'.$controllerName.'',
         ];
         return $router;
     }
     // them router
-    public function createRouter($model,$request, $controllerName){
-        $router = $this->formatRouterPayload($model, $request, $controllerName );
+    public function createRouter($model,$request, $controllerName,$languageId){
+        $router = $this->formatRouterPayload($model, $request, $controllerName, $languageId );
          $this->routerRepository->create($router);
      }
      // cap nhat router
-     public function updateRouter($model,$request,$controllerName){
-        $payload = $this->formatRouterPayload($model,$request,$controllerName);
+     public function updateRouter($model,$request,$controllerName,$languageId){
+        $payload = $this->formatRouterPayload($model,$request,$controllerName,$languageId);
         $condition = [
             ['module_id','=', $model->id],
             ['controllers','=', 'App\Http\Controllers\Frontend\\'.$controllerName],

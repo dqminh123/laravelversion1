@@ -78,8 +78,8 @@ class BaseRepository implements BaseRepositoryInterface
         array $column = ['*'], 
         array $condition = [],
         int $perPage = 1,
-        array $orderBy = ['id','DESC'],
         array $extend = [],
+        array $orderBy = ['id','DESC'],
         array $join = [],
         array $relations = [],
         array $rawQuery = [],
@@ -91,6 +91,7 @@ class BaseRepository implements BaseRepositoryInterface
                 ->keyword($condition['keyword'] ?? null)
                 ->publish($condition['publish'] ?? null)
                 ->relationCount($relations ?? null)
+                ->relation($relations ?? null)
                 ->CustomWhere($condition['where'] ?? null)
                 ->customWhereRaw($rawQuery['whereRaw'] ?? null)
                 ->customJoin($join ?? null)

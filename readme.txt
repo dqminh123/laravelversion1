@@ -15,3 +15,16 @@
 + config
 + request
 + view
+
+
+** quan hệ ngôn ngữ giữa post và languages
+
+bang post_catalogues va languages quan he n - n
+
+nen no phat sinh bang pivot post_catalogue_language
+
+nên trong PostCatalogue Model thi khai bao languages
+
+trong languages khai bao post_catalogues
+
+chứ ko được khai báo quan hệ vào bang pivot
